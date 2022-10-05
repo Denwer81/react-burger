@@ -10,12 +10,12 @@ const cardPropTypes = PropTypes.shape({
   image: PropTypes.string.isRequired,
 });
 
-BurgerIngredients.propTypes = {
+BurgerIngredientsCategory.propTypes = {
   cards: PropTypes.arrayOf(cardPropTypes).isRequired,
   title: PropTypes.string.isRequired
 };
 
-function BurgerIngredients({ title, cards }) {
+function BurgerIngredientsCategory({ title, cards }) {
   const count = 1;
   return (
     <>
@@ -40,4 +40,4 @@ function BurgerIngredients({ title, cards }) {
   )
 }
 
-export default BurgerIngredients;
+export default BurgerIngredientsCategory;

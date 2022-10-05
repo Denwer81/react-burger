@@ -9,9 +9,9 @@ import styles from './BurgerIngredients.module.css';
 function BurgerIngredients() {
   const [current, setCurrent] = useState('one')
 
-  const bun = () => data.filter((item) => item.type === 'bun')
-  const main = () => data.filter((item) => item.type === 'main')
-  const sauce = () => data.filter((item) => item.type === 'sauce')
+  const bun = data.filter((item) => item.type === 'bun')
+  const main = data.filter((item) => item.type === 'main')
+  const sauce = data.filter((item) => item.type === 'sauce')
 
   return (
     <Wrapper>
@@ -29,9 +29,9 @@ function BurgerIngredients() {
           </Tab>
         </div>
         <div className={styles.BurgerContainer}>
-          <BurgerIngredientsCategory title={'Булки'} cards={bun()} />
-          <BurgerIngredientsCategory title={'Соусы'} cards={sauce()} />
-          <BurgerIngredientsCategory title={'Начинки'} cards={main()} />
+          <BurgerIngredientsCategory title={'Булки'} cards={bun} />
+          <BurgerIngredientsCategory title={'Соусы'} cards={sauce} />
+          <BurgerIngredientsCategory title={'Начинки'} cards={main} />
         </div>
       </section>
     </Wrapper>

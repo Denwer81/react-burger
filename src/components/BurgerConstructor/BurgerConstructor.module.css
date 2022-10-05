@@ -31,10 +31,13 @@
 .ingredient {
   display: flex;
   align-items: center;
+  width: 100%;
+  margin-bottom: 16px;
 }
 
-.ingredient {
-  margin-bottom: 16px;
+.elem {
+  width: 100%;
+  margin-left: 16px;
 }
 
 .container {

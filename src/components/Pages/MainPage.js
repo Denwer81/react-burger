@@ -1,6 +1,6 @@
 import React from 'react';
 import Wrapper from '../Ui/Wrapper/Wrapper';
-import BurgerConstractor from '../Ui/BurgerConstractor/BurgerConstractor';
+import BurgerConstractor from '../BurgerConstructor/BurgerConstructor';
 import BurgerIngredients from '../Ui/BurgerIngredients/BurgerIngredients';
 import data from '../../utils/data';
 import ingredientsData from '../../utils/ingredientsData';
