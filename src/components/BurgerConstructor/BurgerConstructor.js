@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { cardPropTypes } from '../../utils/propsTypes';
 import {
   ConstructorElement,
   DragIcon,
@@ -7,35 +8,26 @@ import {
   Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import Wrapper from '../Ui/Wrapper/Wrapper';
+import ingrediensFilter from '../../utils/ingrediensFilter';
 
 import styles from './BurgerConstructor.module.css';
 
-const cardPropTypes = PropTypes.shape({
-  _id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-});
-
 BurgerConstructor.propTypes = {
   cards: PropTypes.arrayOf(cardPropTypes).isRequired,
+  isLocked: PropTypes.bool
 };
 
-function BurgerConstructor({ cards }) {
-  const bun = cards.filter((item) => item.type === 'bun')[0]
-  const main = cards.filter((item) => item.type === 'main')
-  const sauce = cards.filter((item) => item.type === 'sauce')
-
-  const totalPrice = cards.reduce((sum, item) => {
-    return sum + item.price
-  }, 0);
-
+function BurgerConstructor({ cards, isLocked }) {
+  const { bun: [bun], main, sauce } = ingrediensFilter(cards)
+  const totalPrice = cards.reduce((sum, item) => sum + item.price, 0);
+  const checkout = () => console.log('checkout')
+  
   const bunElem = (direction, text) => {
     return (
       <div className='mr-2'>
         <ConstructorElement
           type={direction}
-          // isLocked={bunCard.isLocked}
+          isLocked={isLocked}
           text={`'${bun.name} (${text})'`}
           price={bun.price}
           thumbnail={bun.image}
@@ -44,7 +36,6 @@ function BurgerConstructor({ cards }) {
     )
   }
 
-  const checkout = () => console.log('checkout')
   return (
     <Wrapper>
       <section className={`${styles.burgerConstractor} mt-25`}>
@@ -59,8 +50,6 @@ function BurgerConstructor({ cards }) {
                   }
                   <div className={styles.elem}>
                     <ConstructorElement
-                      type={card.type}
-                      isLocked={card.isLocked}
                       text={card.name}
                       price={card.price}
                       thumbnail={card.image}

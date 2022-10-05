@@ -1,14 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { cardPropTypes } from '../../utils/propsTypes';
 import IngredientsCard from '../IngredientsCard/IngredientsCard';
-import styles from './BurgerIngredientsCategory.module.css';
 
-const cardPropTypes = PropTypes.shape({
-  _id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-});
+import styles from './BurgerIngredientsCategory.module.css';
 
 BurgerIngredientsCategory.propTypes = {
   cards: PropTypes.arrayOf(cardPropTypes).isRequired,

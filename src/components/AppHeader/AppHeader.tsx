@@ -1,10 +1,10 @@
 import React from 'react';
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
-import Wrapper from '../Wrapper/Wrapper';
-import HeaderLink from '../Header-link/Header-link';
-import styles from './Header.module.css';
+import Wrapper from '../Ui/Wrapper/Wrapper';
+import HeaderLink from '../Ui/Header-link/Header-link';
+import styles from './AppHeader.module.css';
 
-function Header(props: any) {
+function AppHeader() {
   return (
     <header className={styles.header}>
       <Wrapper>
@@ -21,4 +21,4 @@ function Header(props: any) {
   )
 }
 
-export default Header;
+export default AppHeader;

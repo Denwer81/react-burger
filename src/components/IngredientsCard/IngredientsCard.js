@@ -5,12 +5,12 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 import styles from './IngredientsCard.module.css';
 
 IngredientsCard.propTypes = {
-  _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
   count: PropTypes.number,
 };
+
 
 function IngredientsCard({ name, image, price, count }) {
   return (

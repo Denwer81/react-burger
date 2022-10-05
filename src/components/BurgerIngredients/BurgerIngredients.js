@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { cardPropTypes } from '../../utils/propsTypes';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientsCategory from '../BurgerIngredientsCategory/BurgerIngredientsCategory';
-import Wrapper from '../Wrapper/Wrapper';
-import data from '../../../utils/data';
+import Wrapper from '../Ui/Wrapper/Wrapper';
+import ingrediensFilter from '../../utils/ingrediensFilter';
 
 import styles from './BurgerIngredients.module.css';
 
-function BurgerIngredients() {
-  const [current, setCurrent] = useState('one')
+BurgerIngredients.propTypes = {
+  cards: PropTypes.arrayOf(cardPropTypes).isRequired,
+};
 
-  const bun = data.filter((item) => item.type === 'bun')
-  const main = data.filter((item) => item.type === 'main')
-  const sauce = data.filter((item) => item.type === 'sauce')
+function BurgerIngredients({ cards }) {
+  const [current, setCurrent] = useState('one')
+  const { bun, main, sauce } = ingrediensFilter(cards)
 
   return (
     <Wrapper>
