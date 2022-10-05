@@ -1,0 +1,34 @@
+.link {
+  display: flex;
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+}
+
+.link:last-child{
+  margin-left: auto;
+}
+
+.linkActive {
+  color: var(--text-primary-color);
+}
+
+.linkInactive {
+  color: var(--text-inactive-color);
+}
+
+.linkActive:hover {
+  opacity: var(--hover-opacity);
+  transition: var(--common-transition);
+}
+
+.linkInactive:hover {
+  color: var(--text-primary-color);
+  transition: var(--common-transition);
+  fill: var(--text-primary-color)
+}
+
+.linkInactive:hover svg {
+  fill: var(--text-primary-color);
+  transition: all .1s ease-in;;
+}

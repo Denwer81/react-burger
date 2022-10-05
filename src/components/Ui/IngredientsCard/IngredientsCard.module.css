@@ -1,0 +1,23 @@
+.card {
+  width: 272px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+}
+
+.image {
+  width: 240px;
+  height: 120px;
+}
+
+.priceContainer {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.title {
+  min-height: 48px;
+}
