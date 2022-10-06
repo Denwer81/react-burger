@@ -1,0 +1,26 @@
+.BurgerIngredients {
+  width: 600px;
+  margin-right: 40px;
+}
+
+.tabContainer {
+  display: flex;
+  margin-bottom: 40px;
+}
+
+.BurgerContainer {
+  height: calc(100vh - 284px);
+  overflow-y: scroll;
+}
+
+.BurgerContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.BurgerContainer::-webkit-scrollbar-track {
+  background: var(--background-element);
+}
+
+.BurgerContainer::-webkit-scrollbar-thumb {
+  background-color: var(--text-inactive-color);
+}

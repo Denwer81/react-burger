@@ -1,5 +1,5 @@
-const data = [
-  {
+ const data = [
+   {
      "_id":"60666c42cc7b410027a1a9b1",
      "name":"Краторная булка N-200i",
      "type":"bun",
@@ -28,7 +28,7 @@ const data = [
      "__v":0
   },
   {
-     "_id":"60666c42cc7b410027a1a9b6",
+     "_id":"60666c42cc7b4100f27a1a9b6",
      "name":"Биокотлета из марсианской Магнолии",
      "type":"main",
      "proteins":420,
@@ -208,7 +208,7 @@ const data = [
      "image_mobile":"https://code.s3.yandex.net/react/code/bun-01-mobile.png",
      "image_large":"https://code.s3.yandex.net/react/code/bun-01-large.png",
      "__v":0
-  }
+  },
 ]
 
 export default data;
