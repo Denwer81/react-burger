@@ -11,6 +11,7 @@
 
 .linkActive {
   color: var(--text-primary-color);
+  transition: var(--common-transition)
 }
 
 .linkInactive {
@@ -19,16 +20,14 @@
 
 .linkActive:hover {
   opacity: var(--hover-opacity);
-  transition: var(--common-transition);
 }
 
 .linkInactive:hover {
   color: var(--text-primary-color);
   transition: var(--common-transition);
-  fill: var(--text-primary-color)
 }
 
 .linkInactive:hover svg {
   fill: var(--text-primary-color);
-  transition: all .1s ease-in;;
+  transition: var(--common-transition);
 }

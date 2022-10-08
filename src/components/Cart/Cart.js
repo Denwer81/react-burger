@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { cardPropTypes } from '../../utils/propsTypes';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../Modals/Modal/Modal';
-import OrderDetails from '../Modals/OrderDetails/OrderDetails';
+import OrderDetails from '../OrderDetails/OrderDetails';
 import useModal from '../../hooks/useModal';
 
 import styles from './Cart.module.css';

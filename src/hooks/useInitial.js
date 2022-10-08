@@ -16,6 +16,5 @@ function useGetBurgersDB() {
 
   return burgersDB
 }
-export { 
-  useGetBurgersDB
-}
+
+export default useGetBurgersDB;

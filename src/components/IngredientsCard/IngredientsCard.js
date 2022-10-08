@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../Modals/Modal/Modal';
-import IngredientDetails from '../Modals/IngredientDetails/IngredientDetails';
+import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import useModal from '../../hooks/useModal';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ingredientDetailsPropTypes } from '../../utils/propsTypes'

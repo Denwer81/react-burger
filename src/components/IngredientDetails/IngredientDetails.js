@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ingredientDetailsPropTypes } from '../../../utils/propsTypes'
+import { ingredientDetailsPropTypes } from '../../utils/propsTypes'
 
 import styles from './IngredientDetails.module.css';
 

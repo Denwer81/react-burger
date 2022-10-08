@@ -1,4 +1,4 @@
-export function handleFetch({ url, method, token }, data) {
+function handleFetch({ url, method, token }, data) {
   const header = method && token && data && {
     method: `${method}`,
     headers: {
