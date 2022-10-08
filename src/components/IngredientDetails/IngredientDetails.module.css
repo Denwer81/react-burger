@@ -4,6 +4,9 @@
   align-items: center;
 }
 .title {
+  display: flex;
+  align-items: center;
+  min-height: 64px;
   width: 640px;
   margin-top: 40px;
 }
