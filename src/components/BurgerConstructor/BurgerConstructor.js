@@ -1,31 +1,38 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { cardPropTypes } from '../../utils/propsTypes';
+import React, { useContext, useEffect, useState } from 'react';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Wrapper from '../Ui/Wrapper/Wrapper';
-import ingrediensFilter from '../../utils/ingrediensFilter';
+import constructorContext from '../../context/constructorContext';
+import ingrediensFilter from '../../hooks/useFilter';
 import Cart from '../Cart/Cart';
 
 import styles from './BurgerConstructor.module.css';
 
-BurgerConstructor.propTypes = {
-  cards: PropTypes.arrayOf(cardPropTypes).isRequired,
-  isLocked: PropTypes.bool
-};
+function BurgerConstructor() {
+  const [isLocked, setIsLocked] = useState(false);
+  const { burgersDB } = useContext(constructorContext)
+  const {
+    burgerConstractorBun,
+    burgerConstractorFilling,
+    burgerConstractorIngreduents } = ingrediensFilter(burgersDB);
 
-function BurgerConstructor({ cards, isLocked }) {
-  const { bun: [bun], main, sauce } = ingrediensFilter(cards)
+  useEffect(() => {
+    if (burgerConstractorFilling.length > 0) {
+      setIsLocked(true);
+    }
+  }, [burgerConstractorFilling])
 
   const bunElem = (direction, text) => {
     return (
-      <div className='mr-2'>
-        <ConstructorElement
-          type={direction}
-          isLocked={isLocked}
-          text={`'${bun.name} (${text})'`}
-          price={bun.price}
-          thumbnail={bun.image}
-        />
+      <div className='mr-2' style={{ minHeight: 80 }}>
+        {
+          burgerConstractorBun &&
+          <ConstructorElement
+            type={direction}
+            isLocked={isLocked}
+            text={`'${burgerConstractorBun.name} (${text})'`}
+            price={burgerConstractorBun.price}
+            thumbnail={burgerConstractorBun.image} />
+        }
       </div>
     )
   }
@@ -33,29 +40,26 @@ function BurgerConstructor({ cards, isLocked }) {
   return (
     <Wrapper>
       <section className={`${styles.burgerConstractor} mt-25`}>
-        {bun && bunElem('top', 'верх')}
+        {bunElem('top', 'верх')}
         <ul className={`${styles.ingredientsList} mt-4`}>
           {
-            [...main, ...sauce].map((card) => {
+            burgerConstractorFilling.map((card) => {
               return (
                 <li className={styles.ingredient} key={card._id}>
-                  {
-                    !card.isLocked && <DragIcon />
-                  }
+                  <DragIcon />
                   <div className={styles.elem}>
                     <ConstructorElement
                       text={card.name}
                       price={card.price}
-                      thumbnail={card.image}
-                    />
+                      thumbnail={card.image} />
                   </div>
                 </li>
               )
             })
           }
         </ul>
-        {bun && bunElem('bottom', 'низ')}
-        <Cart cards={cards}/>
+        {bunElem('bottom', 'низ')}
+        <Cart cards={burgerConstractorIngreduents} />
       </section>
     </Wrapper>
   )

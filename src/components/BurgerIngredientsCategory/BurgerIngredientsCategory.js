@@ -12,6 +12,7 @@ BurgerIngredientsCategory.propTypes = {
 
 function BurgerIngredientsCategory({ title, cards }) {
   const count = 1;
+
   return (
     <>
       <h2 className={`${styles.title} text text_type_main-medium mt-10 mb-6`}>{title}</h2>
@@ -28,4 +29,4 @@ function BurgerIngredientsCategory({ title, cards }) {
   )
 }
 
-export default BurgerIngredientsCategory;
+export default React.memo(BurgerIngredientsCategory);
