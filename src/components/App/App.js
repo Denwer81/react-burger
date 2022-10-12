@@ -1,8 +1,8 @@
 import React from 'react';
 import Header from '../AppHeader/AppHeader';
 import MainPage from '../Pages/MainPage';
-import ingredientsContext from '../../context/twoContext'
-import constructorContext from '../../context/oneContext'
+import ingredientsContext from '../../context/IngredientsContext'
+import constructorContext from '../../context/ConstructorContext'
 import useGetBurgersDB from '../../hooks/useInitial';
 import styles from './App.module.css';
 

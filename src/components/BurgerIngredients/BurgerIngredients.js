@@ -3,7 +3,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientsCategory from '../BurgerIngredientsCategory/BurgerIngredientsCategory';
 import Wrapper from '../Ui/Wrapper/Wrapper';
 import ingrediensFilter from '../../hooks/useIngrediensFilter';
-import ingredientsContext from '../../context/twoContext'
+import ingredientsContext from '../../context/IngredientsContext'
 
 import styles from './BurgerIngredients.module.css';
 
