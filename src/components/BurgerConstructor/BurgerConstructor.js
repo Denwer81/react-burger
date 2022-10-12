@@ -1,19 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Wrapper from '../Ui/Wrapper/Wrapper';
-import constructorContext from '../../context/constructorContext';
-import ingrediensFilter from '../../hooks/useFilter';
+import constructorContext from '../../context/oneContext';
+import useIngrediensFilter from '../../hooks/useIngrediensFilter';
+import useConstractorFilter from '../../hooks/useConstractorFilter';
 import Cart from '../Cart/Cart';
 
 import styles from './BurgerConstructor.module.css';
 
 function BurgerConstructor() {
   const [isLocked, setIsLocked] = useState(false);
-  const { burgersDB } = useContext(constructorContext)
+  const { burgersDB } = useContext(constructorContext);
+  const { bun, main, sauce } = useIngrediensFilter(burgersDB);
   const {
     burgerConstractorBun,
     burgerConstractorFilling,
-    burgerConstractorIngreduents } = ingrediensFilter(burgersDB);
+    burgerConstractorIngreduents } = useConstractorFilter({ bun, main, sauce });
 
   useEffect(() => {
     if (burgerConstractorFilling.length > 0) {

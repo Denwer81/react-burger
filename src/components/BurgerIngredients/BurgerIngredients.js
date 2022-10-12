@@ -2,8 +2,8 @@ import React, { useState, useContext } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientsCategory from '../BurgerIngredientsCategory/BurgerIngredientsCategory';
 import Wrapper from '../Ui/Wrapper/Wrapper';
-import ingrediensFilter from '../../hooks/useFilter';
-import ingredientsContext from '../../context/ingredientsContext'
+import ingrediensFilter from '../../hooks/useIngrediensFilter';
+import ingredientsContext from '../../context/twoContext'
 
 import styles from './BurgerIngredients.module.css';
 
