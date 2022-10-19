@@ -14,7 +14,10 @@ function useGetBurgersDB() {
     });
   }, [])
 
-  return burgersDB
+  return {
+    burgersDB,
+    setDBurgersDB
+  }
 }
 
 export default useGetBurgersDB;

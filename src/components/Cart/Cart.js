@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { cardPropTypes } from '../../utils/propsTypes';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import Modal from '../Modals/Modal/Modal';
+import Modal from '../Ui/Modals/Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import useModal from '../../hooks/useModal';
+import useCart from '../../hooks/useCart';
+import { getOrder } from '../../utils/api';
 
 import styles from './Cart.module.css';
 
@@ -13,18 +15,26 @@ Cart.propTypes = {
 };
 
 function Cart({ cards }) {
+  const [order, setOrder] = useState(null);
   const { isOpen, handleOpen, handleClose, handleCloseOverlay } = useModal();
-  const totalPrice = cards.reduce((sum, item) => sum + item.price, 0);
+  const { cart, price } = useCart(cards);
+
+  const handleGetOrder = () => {
+    getOrder({ ingredients: cart })
+      .then(res => setOrder(res))
+      .catch(err => console.log(err))
+      handleOpen()
+  };
 
   return (
     <>
       <div className={`${styles.container} mt-10`}>
-        <p className='text text_type_main-large'>{totalPrice}</p>
+        <p className='text text_type_main-large'>{price}</p>
         <div className='ml-2 mr-10'>
           <CurrencyIcon type="primary" />
         </div>
         <Button
-          onClick={handleOpen}
+          onClick={handleGetOrder}
           type="primary"
           size="large"
           htmlType='button'>
@@ -35,7 +45,7 @@ function Cart({ cards }) {
         isOpen={isOpen}
         handleClose={handleClose}
         handleCloseOverlay={handleCloseOverlay}>
-        <OrderDetails />
+        <OrderDetails order={ order } />
       </Modal>
     </>
   )
