@@ -5,16 +5,11 @@ import IngredientsCard from '../IngredientsCard/IngredientsCard';
 
 import styles from './BurgerIngredientsCategory.module.css';
 
-BurgerIngredientsCategory.propTypes = {
-  cards: PropTypes.arrayOf(ingredientDetailsPropTypes).isRequired,
-  title: PropTypes.string.isRequired
-};
-
-function BurgerIngredientsCategory({ title, cards }) {
+const BurgerIngredientsCategory = React.forwardRef(({ title, cards }, ref) => {
   const count = 1;
 
   return (
-    <>
+    <div ref={ref}>
       <h2 className={`${styles.title} text text_type_main-medium mt-10 mb-6`}>{title}</h2>
         <ul className={`${styles.ingredientsList}`}>
           {
@@ -25,8 +20,13 @@ function BurgerIngredientsCategory({ title, cards }) {
             })
           }
         </ul>
-    </>
+    </div>
   )
-}
+})
+
+BurgerIngredientsCategory.propTypes = {
+  cards: PropTypes.arrayOf(ingredientDetailsPropTypes).isRequired,
+  title: PropTypes.string.isRequired
+};
 
 export default React.memo(BurgerIngredientsCategory);

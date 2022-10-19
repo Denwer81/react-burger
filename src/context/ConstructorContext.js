@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const constructorContext = createContext([]);
+const ConstructorContext = createContext([]);
 
-export default constructorContext;
+export default ConstructorContext;
