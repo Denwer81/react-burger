@@ -6,6 +6,7 @@
 }
 
 .ingredientsList {
+  width: 100%;
   height: calc(100vh - 490px);
   display: flex;
   flex-direction: column;

@@ -1,29 +1,35 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { cardPropTypes } from '../../utils/propsTypes';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../Ui/Modals/Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import useModal from '../../hooks/useModal';
-import useCart from '../../hooks/useCart';
-import { getOrder } from '../../utils/api';
+import { cartIngredientsIdList, totalSumIngredients } from '../../services/BurgerConstructor';
+import { fetchCart, clearOrder } from '../../services/order';
 
 import styles from './Cart.module.css';
 
-Cart.propTypes = {
-  cards: PropTypes.arrayOf(cardPropTypes).isRequired,
-};
+function Cart() {
+  const dispatch = useDispatch();
+  const bun = useSelector(state => state.cart.cartBun);
+  const ingredients = useSelector(state => state.cart.cartIngredients);
+  const cart = useSelector(state => state.cart.cartIngredientsIdList);
+  const price = useSelector(state => state.cart.totalSumIngredients);
+  const { isOpen, handleOpen, handleClose } = useModal(clearOrder);
 
-function Cart({ cards }) {
-  const [order, setOrder] = useState(null);
-  const { isOpen, handleOpen, handleClose, handleCloseOverlay } = useModal();
-  const { cart, price } = useCart(cards);
+  useEffect(() => {
+    if (bun.length !== 0 || ingredients.length !== 0) {
+      dispatch(cartIngredientsIdList())
+      dispatch(totalSumIngredients())
+    }
+  },[dispatch, bun, ingredients])
 
   const handleGetOrder = () => {
-    getOrder({ ingredients: cart })
-      .then(res => setOrder(res))
-      .catch(err => console.log(err))
-      handleOpen()
+    console.log(cart)
+    if (cart.length !== 0) {
+      dispatch(fetchCart({ ingredients: cart }));
+      handleOpen();
+    }
   };
 
   return (
@@ -43,9 +49,8 @@ function Cart({ cards }) {
       </div>
       <Modal
         isOpen={isOpen}
-        handleClose={handleClose}
-        handleCloseOverlay={handleCloseOverlay}>
-        <OrderDetails order={ order } />
+        handleClose={handleClose}>
+        <OrderDetails />
       </Modal>
     </>
   )

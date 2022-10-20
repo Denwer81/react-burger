@@ -1,14 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { ingredientDetailsPropTypes } from '../../utils/propsTypes'
+import { useSelector } from 'react-redux';
 
 import styles from './IngredientDetails.module.css';
 
-IngredientDetails.propTypes = {
-  card: PropTypes.shape({ingredientDetailsPropTypes}).isRequired
-}
 
-function IngredientDetails({ card }) {
+function IngredientDetails() {
+  const card = useSelector((state) => state.viewedIngredient.ingredient)
   const { name, image_large, calories, proteins, fat, carbohydrates } = card
   
   return (

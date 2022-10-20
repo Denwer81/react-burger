@@ -12,7 +12,7 @@ Modal.propTypes = {
   handleClose: PropTypes.func.isRequired,
 };
 
-function Modal({ children, isOpen, handleClose, handleCloseOverlay }) {
+function Modal({ children, isOpen, handleClose }) {
   const modalRef = useRef()
 
   useAnimation(modalRef, styles.visible, isOpen)
@@ -20,7 +20,7 @@ function Modal({ children, isOpen, handleClose, handleCloseOverlay }) {
   if (!isOpen) return null
 
   return ReactDOM.createPortal(
-    <ModalOverlay handleClose={handleCloseOverlay}>
+    <ModalOverlay handleClose={handleClose}>
       <section className={styles.modal} ref={modalRef}>
         <button
           className={styles.closeButton}

@@ -1,24 +1,19 @@
-function handleFetch({ url, method, token }, data) {
-  const Authorization = token ? `Bearer ${token}` : null;
-
-  const header = method && data && {
-    method: `${method}`,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization
-    },
-    body: JSON.stringify(data)
+function handleFetch({ url, method = 'GET', token = null }, data) {
+  const body = JSON.stringify(data)
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer${token}`
   }
 
-  return fetch(`${url}`, header)
+  return fetch(`${url}`, { method, body, headers })
     .then(res => {
-      if (res.ok) {
-        return res.json()
-      }
-      return res.json().then((res) => {
+      if (!res.ok) {
         throw new Error(res);
       }
-      );
+      return res.json()
+    })
+    .catch(error => {
+      console.log(error.message)
     });
 }
 

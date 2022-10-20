@@ -1,39 +1,38 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Wrapper from '../Ui/Wrapper/Wrapper';
-import constructorContext from '../../context/ConstructorContext';
-import useIngrediensFilter from '../../hooks/useIngrediensFilter';
-import useConstractorFilter from '../../hooks/useConstractorFilter';
 import Cart from '../Cart/Cart';
+import { deleteIngredient } from '../../services/BurgerConstructor';
 
 import styles from './BurgerConstructor.module.css';
 
 function BurgerConstructor() {
+  const dispatch = useDispatch();
+  const bun = useSelector(state => state.cart.cartBun);
+  const ingredient = useSelector(state => state.cart.cartIngredients);
   const [isLocked, setIsLocked] = useState(false);
-  const { burgersDB } = useContext(constructorContext);
-  const { bun, main, sauce } = useIngrediensFilter(burgersDB);
-  const {
-    burgerConstractorBun,
-    burgerConstractorFilling,
-    burgerConstractorIngreduents } = useConstractorFilter({ bun, main, sauce });
 
   useEffect(() => {
-    if (burgerConstractorFilling.length > 0) {
-      setIsLocked(true);
-    }
-  }, [burgerConstractorFilling])
+    ingredient.length === 0 ? setIsLocked(false) : setIsLocked(true)
+  }, [ingredient])
+
+  const handleDelete = (id) => {
+    dispatch(deleteIngredient(id));
+  };
 
   const bunElem = (direction, text) => {
     return (
-      <div className='mr-2' style={{ minHeight: 80 }}>
+      <div className='mr-7' style={{ minHeight: 80 }}>
         {
-          burgerConstractorBun &&
+          bun.hasOwnProperty('_id') &&
           <ConstructorElement
+            handleClose={() => handleDelete(bun.consructorId)}
             type={direction}
             isLocked={isLocked}
-            text={`'${burgerConstractorBun.name} (${text})'`}
-            price={burgerConstractorBun.price}
-            thumbnail={burgerConstractorBun.image} />
+            text={`'${bun.name} (${text})'`}
+            price={bun.price}
+            thumbnail={bun.image} />
         }
       </div>
     )
@@ -45,12 +44,13 @@ function BurgerConstructor() {
         {bunElem('top', 'верх')}
         <ul className={`${styles.ingredientsList} mt-4`}>
           {
-            burgerConstractorFilling.map((card) => {
+            ingredient.map((card) => {
               return (
-                <li className={styles.ingredient} key={card._id}>
+                <li className={styles.ingredient} key={card.consructorId}>
                   <DragIcon />
                   <div className={styles.elem}>
                     <ConstructorElement
+                      handleClose={() => handleDelete(card.consructorId)}
                       text={card.name}
                       price={card.price}
                       thumbnail={card.image} />
@@ -61,7 +61,7 @@ function BurgerConstructor() {
           }
         </ul>
         {bunElem('bottom', 'низ')}
-        <Cart cards={burgerConstractorIngreduents} />
+        <Cart cards={ingredient} />
       </section>
     </Wrapper>
   )
