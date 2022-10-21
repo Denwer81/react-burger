@@ -1,23 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import Header from '../AppHeader/AppHeader';
 import MainPage from '../Pages/MainPage';
-import ingredientsContext from '../../context/IngredientsContext'
-import constructorContext from '../../context/ConstructorContext'
-import useGetBurgersDB from '../../hooks/useInitial';
+import { fetchBurgersDB } from '../../services/BurgerIngredients';
+
 import styles from './App.module.css';
 
-
 function App() {
-  const { burgersDB, setDBurgersDB } = useGetBurgersDB();
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(fetchBurgersDB());
+  }, [dispatch]);
 
   return (
     <div className={styles.app}>
-      <ingredientsContext.Provider value={{ burgersDB, setDBurgersDB }}>
-        <constructorContext.Provider value={{ burgersDB, setDBurgersDB }}>
-          <Header />
-          <MainPage />
-        </constructorContext.Provider>
-      </ingredientsContext.Provider>
+      <Header />
+      <MainPage />
     </div>
   );
 }

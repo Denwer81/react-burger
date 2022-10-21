@@ -1,0 +1,12 @@
+.ingredient {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 16px;
+  cursor: grab;
+}
+
+.elem {
+  width: 100%;
+  margin-left: 16px;
+}

@@ -1,11 +1,11 @@
 .BurgerIngredients {
+  position:relative;
   width: 600px;
   margin-right: 40px;
 }
 
 .tabContainer {
   display: flex;
-  margin-bottom: 40px;
 }
 
 .BurgerContainer {
