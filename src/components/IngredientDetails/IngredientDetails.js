@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 
 import styles from './IngredientDetails.module.css';
 
-
 function IngredientDetails() {
   const card = useSelector((state) => state.viewedIngredient.ingredient)
   const { name, image_large, calories, proteins, fat, carbohydrates } = card

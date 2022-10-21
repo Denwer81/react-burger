@@ -1,5 +1,5 @@
-const extractArray = (value) => {
-  return Array.isArray(value) ? value : (value !== undefined ? [value] : [])
-};
+// const extractArray = (value) => {
+//   return Array.isArray(value) ? value : (value !== undefined ? [value] : [])
+// };
 
-export default extractArray;
+// export default extractArray;

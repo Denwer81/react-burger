@@ -34,17 +34,19 @@ function BurgerConstructor() {
   };
 
   const bunElem = (direction, text) => {
+    const bunElem = bun[0];
+
     return (
       <div className='mr-7' style={{ minHeight: 80 }}>
         {
-          bun.hasOwnProperty('_id') &&
+          bun.length !== 0 &&
           <ConstructorElement
-            handleClose={() => handleDelete(bun.consructorId)}
+            handleClose={() => handleDelete(bunElem.consructorId)}
             type={direction}
             isLocked={isLocked}
-            text={`'${bun.name} (${text})'`}
-            price={bun.price}
-            thumbnail={bun.image} />
+            text={`'${bunElem.name} (${text})'`}
+            price={bunElem.price}
+            thumbnail={bunElem.image} />
         }
       </div>
     )
@@ -59,7 +61,7 @@ function BurgerConstructor() {
         {bunElem('top', 'верх')}
         <ul className={`${styles.ingredientsList} mt-4`}>
           {
-            ingredient.length === 0
+            ingredient.length === 0 && bun.length === 0
               ? (
                 <li style={{ margin: 'auto', alignSelf: 'center' }}>
                   <h2 className='text text_type_main-medium mb-3'>В корзине пусто.</h2>
@@ -86,14 +88,10 @@ function BurgerConstructor() {
           }
         </ul>
         {bunElem('bottom', 'низ')}
+        <Cart cards={ingredient} />
       </section>
-
-      <Cart cards={ingredient} />
     </Wrapper>
   )
 }
 
-// ingredient.length === 0
-//           ? <h2>ddd</h2>
-//           :
 export default BurgerConstructor;

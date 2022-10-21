@@ -43,4 +43,3 @@ const ingredientsSlice = createSlice({
 const { reducer } = ingredientsSlice;
 
 export default reducer;
-

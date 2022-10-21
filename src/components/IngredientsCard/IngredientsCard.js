@@ -18,12 +18,11 @@ IngredientsCard.propTypes = {
 };
 
 function IngredientsCard({ card }) {
-
   const dispatch = useDispatch();
   const cardsIdList = useSelector(state => state.cart.cartIngredientsIdList);
 
   const { name, image, price } = card
-  const { isOpen, handleOpen, handleClose } = useModal(clearIngredient);
+  const { isOpen, handleOpen, handleClose } = useModal({ clearIngredient });
 
   const counter = () => {
     let counter = cardsIdList.filter((item => item === card._id)).length;
@@ -45,12 +44,12 @@ function IngredientsCard({ card }) {
   };
 
   const click = () => {
-    const cardAddId = { ...card, consructorId: nanoid() }
+    const carWithId = { ...card, consructorId: nanoid() }
 
     if (card.type === 'bun') {
-      dispatch(addCartBun(cardAddId))
+      dispatch(addCartBun(carWithId))
     } else {
-      dispatch(addIngredient(cardAddId))
+      dispatch(addIngredient(carWithId))
     }
   }
 

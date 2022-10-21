@@ -22,6 +22,7 @@ const viewedIngredientSlice = createSlice({
 const { actions, reducer } = viewedIngredientSlice;
 
 export default reducer;
+
 export const {
   setIngredient,
   clearIngredient,

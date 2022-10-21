@@ -17,7 +17,7 @@ function MainPage() {
           <BurgerConstractor />
         </main>
       </DndProvider>
-    </Wrapper>
+     </Wrapper>
   );
 }
 

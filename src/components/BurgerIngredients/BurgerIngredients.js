@@ -1,9 +1,10 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, {  useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientsCategory from '../BurgerIngredientsCategory/BurgerIngredientsCategory';
 import Wrapper from '../Ui/Wrapper/Wrapper';
 import debounce from '../../utils/debounce';
+import useScrollTab from '../../hooks/useScrollTab';
 
 import styles from './BurgerIngredients.module.css';
 
@@ -11,29 +12,16 @@ function BurgerIngredients() {
   const bun = useSelector(state => state.ingredients.bun);
   const main = useSelector(state => state.ingredients.main);
   const sauce = useSelector(state => state.ingredients.sauce);
-  const [currentTab, setCurrentTab] = useState('bun')
   const containerRef = useRef(null);
   const bunRef = useRef(null);
   const sauceRef = useRef(null);
   const mainRef = useRef(null);
-
-  const scrollToTab = (ref) => {
-    ref.current.scrollIntoView({
-      behavior: "smooth"
-    })
-  };
-
-  const handleSetCurrentTab = useCallback(() => {
-    const offset = 240;
-    const topOffset = containerRef.current.scrollTop;
-    const bunTopOffset = topOffset - bunRef.current.offsetTop + offset;
-    const sauceTopOffset = topOffset - sauceRef.current.offsetTop + offset;
-    const mainTopOffset = topOffset - mainRef.current.offsetTop + offset;
-
-    if (bunTopOffset >= 0) setCurrentTab('bun');
-    if (sauceTopOffset >= 0) setCurrentTab('sauce');
-    if (mainTopOffset >= 0) setCurrentTab('main');
-  }, [bunRef, sauceRef, mainRef])
+  const { scrollToTab, currentTab, handleSetCurrentTab } = useScrollTab({
+    containerRef,
+    bunRef,
+    sauceRef,
+    mainRef
+  });
 
   return (
     <Wrapper>

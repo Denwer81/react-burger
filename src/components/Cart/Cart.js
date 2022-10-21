@@ -5,6 +5,7 @@ import Modal from '../Ui/Modals/Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import useModal from '../../hooks/useModal';
 import { cartIngredientsIdList, totalSumIngredients } from '../../services/BurgerConstructor';
+import { clearCart } from '../../services/BurgerConstructor';
 import { fetchCart, clearOrder } from '../../services/order';
 
 import styles from './Cart.module.css';
@@ -13,21 +14,18 @@ function Cart() {
   const dispatch = useDispatch();
   const bun = useSelector(state => state.cart.cartBun);
   const ingredients = useSelector(state => state.cart.cartIngredients);
-  const cart = useSelector(state => state.cart.cartIngredientsIdList);
+  const cartIdList = useSelector(state => state.cart.cartIngredientsIdList);
   const price = useSelector(state => state.cart.totalSumIngredients);
-  const { isOpen, handleOpen, handleClose } = useModal(clearOrder);
+  const { isOpen, handleOpen, handleClose } = useModal({ clearOrder, clearCart });
 
   useEffect(() => {
-    if (bun.length !== 0 || ingredients.length !== 0) {
       dispatch(cartIngredientsIdList())
       dispatch(totalSumIngredients())
-    }
   },[dispatch, bun, ingredients])
 
   const handleGetOrder = () => {
-    console.log(cart)
-    if (cart.length !== 0) {
-      dispatch(fetchCart({ ingredients: cart }));
+    if (cartIdList.length !== 0) {
+      dispatch(fetchCart({ ingredients: cartIdList }));
       handleOpen();
     }
   };
