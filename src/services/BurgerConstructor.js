@@ -32,7 +32,7 @@ const burgerConstractorSlice = createSlice({
       const cartBunId = state.cartBun.hasOwnProperty('_id') ? state.cartBun._id : [];
     
       state.cartIngredientsIdList = (
-        [...cartBunId, ...cartBunId, ...ingredientsIdList]);
+        [cartBunId, cartBunId, ...ingredientsIdList]);
     },
     totalSumIngredients: (state) => {
       const bunPrice = state.cartBun.hasOwnProperty('price') ? state.cartBun.price : 0;

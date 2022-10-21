@@ -16,7 +16,7 @@ function BurgerIngredients() {
   const bunRef = useRef(null);
   const sauceRef = useRef(null);
   const mainRef = useRef(null);
-  
+
   const scrollToTab = (ref) => {
     ref.current.scrollIntoView({
       behavior: "smooth"
@@ -38,15 +38,24 @@ function BurgerIngredients() {
   return (
     <Wrapper>
       <section className={styles.BurgerIngredients}>
-        <h1 className={`${styles.title} text text_type_main-large mt-10 mb-5`}>Собери бургер</h1>
+        <h1 className={'text text_type_main-large mt-10 mb-5'}>Собери бургер</h1>
         <div className={styles.tabContainer}>
-          <Tab value="one" active={currentTab === 'bun'} onClick={() => scrollToTab(bunRef)}>
+          <Tab
+            value="one"
+            active={currentTab === 'bun'}
+            onClick={() => scrollToTab(bunRef)}>
             Булки
           </Tab>
-          <Tab value="two" active={currentTab === 'sauce'} onClick={() => scrollToTab(sauceRef)}>
+          <Tab
+            value="two"
+            active={currentTab === 'sauce'}
+            onClick={() => scrollToTab(sauceRef)}>
             Cоусы
           </Tab>
-          <Tab value="three" active={currentTab === 'main'} onClick={() => scrollToTab(mainRef)}>
+          <Tab
+            value="three"
+            active={currentTab === 'main'}
+            onClick={() => scrollToTab(mainRef)}>
             Начинки
           </Tab>
         </div>

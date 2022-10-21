@@ -6,6 +6,11 @@
   align-items: center;
   text-align: center;
   cursor: pointer;
+  transition: all .2s ease-in;
+}
+
+.drag {
+  opacity: .5;
 }
 
 .card:nth-child(odd) {

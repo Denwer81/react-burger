@@ -3,6 +3,11 @@
   min-width: 600px;
   flex-direction: column;
   align-items: flex-end;
+  transition: all .2s ease-in;
+}
+
+.hover {
+  box-shadow:inset 0px 0px 100px rgba(51, 51, 255, 0.25), 0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
 }
 
 .ingredientsList {
