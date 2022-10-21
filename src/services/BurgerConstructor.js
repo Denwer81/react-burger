@@ -6,7 +6,6 @@ const initialState = {
   cartIngredientsIdList: [],
 
   totalSumIngredients: 0,
-  totalSumBun: 0,
 }
 
 const burgerConstractorSlice = createSlice({
@@ -25,6 +24,9 @@ const burgerConstractorSlice = createSlice({
 
       state.cartIngredients = (
         state.cartIngredients.filter(item => item.consructorId !== action.payload));
+    },
+    updateIngredient: (state, action) => {
+      state.cartIngredients = action.payload
     },
     cartIngredientsIdList: (state) => {
       const ingredientsIdList = state.cartIngredients.map(item => item._id)
@@ -55,6 +57,7 @@ export const {
   addCartBun,
   addIngredient,
   deleteIngredient,
+  updateIngredient,
   cartIngredientsIdList,
   totalSumIngredients,
   clearCart

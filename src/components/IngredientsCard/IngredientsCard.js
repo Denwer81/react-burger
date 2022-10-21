@@ -18,13 +18,11 @@ IngredientsCard.propTypes = {
 function IngredientsCard({ card }) {
   const dispatch = useDispatch();
   const cardsIdList = useSelector(state => state.cart.cartIngredientsIdList);
-
   const { name, image, price } = card
   const { isOpen, handleOpen, handleClose } = useModal({ clearIngredient });
 
   const counter = () => {
     const counter = cardsIdList.filter((item => item === card._id)).length;
-
     return card.type === 'bun' ? counter / 2 : counter;
   }
 
