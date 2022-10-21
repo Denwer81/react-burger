@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from "react-dnd";
+import { nanoid } from '@reduxjs/toolkit';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Wrapper from '../Ui/Wrapper/Wrapper';
 import Cart from '../Cart/Cart';
 import { deleteIngredient } from '../../services/BurgerConstructor';
+import { addCartBun, addIngredient } from '../../services/BurgerConstructor';
 
 import styles from './BurgerConstructor.module.css';
 
@@ -21,8 +23,13 @@ function BurgerConstructor() {
   const [{ isHover }, dropTarget] = useDrop({
     accept: 'ingredient',
     drop(card) {
+      const cardWithId = { ...card, consructorId: nanoid() }
 
-
+      if (card.type === 'bun') {
+        dispatch(addCartBun(cardWithId))
+      } else {
+        dispatch(addIngredient(cardWithId))
+      }
     },
     collect: monitor => ({
       isHover: monitor.isOver()
@@ -57,7 +64,6 @@ function BurgerConstructor() {
       <section
         ref={dropTarget}
         className={`${styles.burgerConstractor} ${isHover && styles.hover} mt-25`}>
-
         {bunElem('top', 'верх')}
         <ul className={`${styles.ingredientsList} mt-4`}>
           {
