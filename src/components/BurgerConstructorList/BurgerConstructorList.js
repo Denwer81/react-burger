@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ingredientDetailsPropTypes } from '../../utils/propsTypes';
-import { deleteIngredient } from '../../services/BurgerConstructor';
-import useDnDBurgerConstructorList from './hooks/useDnDBurgerConstructorList';
+import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { deleteIngredient } from '../../services/slices/BurgerConstructor';
+import useDnDBurgerConstructorList from '../../services/hooks/useDnDBurgerConstructorList';
 
 import styles from './BurgerConstructorList.module.css';
 

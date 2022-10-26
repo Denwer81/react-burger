@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import ReactDOM from "react-dom";
 import PropTypes from 'prop-types';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
-import useAnimation from '../../../../hooks/useAnimation';
+import useAnimation from '../../../../services/hooks/useAnimation';
 
 import styles from './Modal.module.css';
 

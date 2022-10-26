@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from "react-redux";
+import { ingredientDetailsPropTypes } from '../../utils/propsTypes';
 import Modal from '../Ui/Modals/Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import useModal from '../../hooks/useModal';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredientDetailsPropTypes } from '../../utils/propsTypes';
-import { setIngredient, clearIngredient } from '../../services/viewedIngredient';
-import useDragIngredientsCard from './hooks/useDragIngredientsCard';
-import useGetCounter from '../../hooks/useGetCounter';
-import useClearData from '../../hooks/useClearData';
+import { setIngredient, clearIngredient } from '../../services/slices/viewedIngredient';
+import useModal from '../../services/hooks/useModal';
+import useDragIngredientsCard from '../../services/hooks/useDragIngredientsCard';
+import useGetCounter from '../../services/hooks/useGetCounter';
+import useClearData from '../../services/hooks/useClearData';
 
 import styles from './IngredientsCard.module.css';
 
@@ -39,7 +39,7 @@ function IngredientsCard({ card }) {
   return (
     <>
       <li ref={dragRef} onClick={openModal} className={`${styles.card} ${isDrag && styles.drag}`}>
-        {getCounter() ? <Counter count={getCounter()} size="default" /> : ''}
+        {getCounter ? <Counter count={getCounter} size="default" /> : ''}
         <img className={styles.image} src={image} alt={name} />
         <div className={styles.priceContainer}>
           <p className='text text_type_main-medium mr-2'>{price}</p>

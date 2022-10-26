@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import debounce from '../../utils/debounce';
 
 const useScrollTab = ({ containerRef, bunRef, sauceRef, mainRef }) => {
   const [currentTab, setCurrentTab] = useState('bun')
@@ -21,7 +22,9 @@ const useScrollTab = ({ containerRef, bunRef, sauceRef, mainRef }) => {
     if (mainTopOffset >= 0) setCurrentTab('main');
   }
 
-  return { scrollToTab, currentTab, handleSetCurrentTab };
+  const debounceSetCurrentTab = () => debounce(handleSetCurrentTab, 150);
+
+  return { scrollToTab, currentTab, debounceSetCurrentTab };
 }
 
 export default useScrollTab;

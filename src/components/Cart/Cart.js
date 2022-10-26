@@ -1,37 +1,25 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../Ui/Modals/Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
-import useModal from '../../hooks/useModal';
-import { cartIngredientsIdList, totalSumIngredients } from '../../services/BurgerConstructor';
-import { clearCart } from '../../services/BurgerConstructor';
-import { fetchCart, clearOrder } from '../../services/order';
-import useClearData from '../../hooks/useClearData';
+import { clearCart } from '../../services/slices/BurgerConstructor';
+import { fetchCart, clearOrder } from '../../services/slices/order';
+import useModal from '../../services/hooks/useModal';
+import useGetCartIdList from '../../services/hooks/useGetCartdList';
+import useGetCartPrice from '../../services/hooks/useGetCartPrice';
+import useClearData from '../../services/hooks/useClearData';
+import useSelectors from '../../services/selectors';
 
 import styles from './Cart.module.css';
 
 function Cart() {
   const dispatch = useDispatch();
-  const bun = useSelector(state => state.cart.cartBun);
-  const ingredients = useSelector(state => state.cart.cartIngredients);
-  const cartIdList = useSelector(state => state.cart.cartIngredientsIdList);
-  const orderNumber = useSelector(state => state.order.orderNumber);
-  const price = useSelector(state => state.cart.totalSumIngredients);
   const { isOpen, handleOpen, handleClose } = useModal();
+  const { cartIdList } = useGetCartIdList();
+  const { cartPrice } = useGetCartPrice();
+  const { orderNumber } = useSelectors();
   const { clearData } = useClearData()
-
-  useEffect(() => {
-      dispatch(cartIngredientsIdList())
-      dispatch(totalSumIngredients())
-  }, [dispatch, bun, ingredients])
-  
-  useEffect(() => {
-    if (!isOpen && orderNumber) {
-      clearData(clearOrder);
-      clearData(clearCart);
-    }
-  }, [isOpen, clearData, orderNumber])
 
   const handleGetOrder = () => {
     if (cartIdList.length !== 0) {
@@ -40,10 +28,18 @@ function Cart() {
     }
   };
 
+  const closeModal = (e) => {
+    handleClose(e);
+    if (orderNumber) {
+      clearData(clearOrder);
+      clearData(clearCart);
+    }
+  }
+
   return (
     <>
       <div className={`${styles.container} mt-10`}>
-        <p className='text text_type_main-large'>{price}</p>
+        <p className='text text_type_main-large'>{cartPrice}</p>
         <div className='ml-2 mr-10'>
           <CurrencyIcon type="primary" />
         </div>
@@ -57,7 +53,7 @@ function Cart() {
       </div>
       <Modal
         isOpen={isOpen}
-        handleClose={handleClose}>
+        handleClose={closeModal}>
         <OrderDetails />
       </Modal>
     </>

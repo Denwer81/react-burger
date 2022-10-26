@@ -1,16 +1,17 @@
 import { useCallback } from 'react';
 import { useDrop, useDrag } from "react-dnd";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
+import useSelectors from '../selectors';
 import {
   addCartBun,
   addIngredient,
   updateIngredient
-} from '../../../services/BurgerConstructor';
+} from '../slices/BurgerConstructor';
 
 const useDropBurgerConstructor = () => {
   const dispatch = useDispatch();
-  const ingredients = useSelector(state => state.cart.cartIngredients);
+  const { cartIngredients } = useSelectors();
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: 'ingredient',
@@ -29,14 +30,14 @@ const useDropBurgerConstructor = () => {
   });
   
   const moveCard = useCallback((dragIndex, hoverIndex) => {
-    const dragCard = ingredients[dragIndex];
-    const newCards = [...ingredients]
+    const dragCard = cartIngredients[dragIndex];
+    const newCards = [...cartIngredients]
   
     newCards.splice(dragIndex, 1)
     newCards.splice(hoverIndex, 0, dragCard)
   
     dispatch(updateIngredient(newCards));
-  }, [ingredients, dispatch]);
+  }, [cartIngredients, dispatch]);
 
 
   return {

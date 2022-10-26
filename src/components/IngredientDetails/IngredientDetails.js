@@ -1,12 +1,12 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import useSelectors from '../../services/selectors';
 
 import styles from './IngredientDetails.module.css';
 
 function IngredientDetails() {
-  const card = useSelector((state) => state.viewedIngredient.ingredient)
-  const { name, image_large, calories, proteins, fat, carbohydrates } = card
-  
+  const { viewedIngredient } = useSelectors();
+  const { name, image_large, calories, proteins, fat, carbohydrates } = viewedIngredient;
+
   return (
     <div className={styles.container}>
       <h1 className={`${styles.title} text text_type_main-large`}>Детали ингредиента</h1>
