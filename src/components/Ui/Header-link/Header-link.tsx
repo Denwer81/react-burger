@@ -26,4 +26,4 @@ function HeaderButton({ text, icon, isActive }: any) {
   )
 }
 
-export default HeaderButton;
+export default React.memo(HeaderButton);

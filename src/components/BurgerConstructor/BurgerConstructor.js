@@ -1,18 +1,12 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useDrop } from "react-dnd";
-import { nanoid } from '@reduxjs/toolkit';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import Wrapper from '../Ui/Wrapper/Wrapper';
 import BurgerConstructorList from '../BurgerConstructorList/BurgerConstructorList';
 import Empty from '../Ui/Empty/Empty';
 import Cart from '../Cart/Cart';
-import {
-  addCartBun,
-  addIngredient,
-  updateIngredient,
-  deleteIngredient
-} from '../../services/BurgerConstructor';
+import { deleteIngredient } from '../../services/BurgerConstructor';
+import useDropBurgerConstructor from './hooks/useDropBurgerConstructor';
 
 import styles from './BurgerConstructor.module.css';
 
@@ -21,36 +15,11 @@ function BurgerConstructor() {
   const [isLocked, setIsLocked] = useState(false);
   const bun = useSelector(state => state.cart.cartBun);
   const ingredients = useSelector(state => state.cart.cartIngredients);
+  const { isHover, dropTarget, moveCard } = useDropBurgerConstructor();
 
   useEffect(() => {
     ingredients.length === 0 ? setIsLocked(false) : setIsLocked(true)
   }, [ingredients]);
-
-  const [{ isHover }, dropTarget] = useDrop({
-    accept: 'ingredient',
-    drop(card) {
-      const cardWithId = { ...card, consructorId: nanoid() }
-
-      if (card.type === 'bun') {
-        dispatch(addCartBun(cardWithId))
-      } else {
-        dispatch(addIngredient(cardWithId))
-      }
-    },
-    collect: monitor => ({
-      isHover: monitor.isOver()
-    })
-  });
-
-  const moveCard = useCallback((dragIndex, hoverIndex) => {
-    const dragCard = ingredients[dragIndex];
-    const newCards = [...ingredients]
-
-    newCards.splice(dragIndex, 1)
-    newCards.splice(hoverIndex, 0, dragCard)
-
-    dispatch(updateIngredient(newCards));
-  }, [ingredients, dispatch]);
 
   const handleDelete = (id) => {
     dispatch(deleteIngredient(id));
@@ -83,12 +52,14 @@ function BurgerConstructor() {
         {bunElem('top', 'верх')}
         <ul className={`${styles.ingredientsList} mt-4`}>
           {
-            (ingredients.length === 0 && bun.length === 0)
+            (!ingredients.length && !bun.length)
               ?
-              <Empty
-                title={'В корзине пусто'}
-                text={'Перетащите сюда ингредиенты...'}>
-              </Empty>
+              <li style={{ margin: 'auto', alignSelf: 'center' }}>
+                <Empty
+                  title={'В корзине пусто'}
+                  text={'Перетащите сюда ингредиенты...'}>
+                </Empty>
+              </li>
               :
               ingredients.map((card, index) => {
                 return (

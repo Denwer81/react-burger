@@ -14,10 +14,9 @@ Modal.propTypes = {
 
 function Modal({ children, isOpen, handleClose }) {
   const modalRef = useRef()
+  const { mounted } = useAnimation(modalRef, styles.visible, isOpen)
 
-  useAnimation(modalRef, styles.visible, isOpen)
-
-  if (!isOpen) return null
+  if (!mounted) return null
 
   return ReactDOM.createPortal(
     <ModalOverlay handleClose={handleClose}>
@@ -32,4 +31,4 @@ function Modal({ children, isOpen, handleClose }) {
   )
 }
 
-export default Modal;
+export default React.memo(Modal);

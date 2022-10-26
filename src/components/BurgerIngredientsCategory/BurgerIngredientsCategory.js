@@ -14,8 +14,8 @@ const BurgerIngredientsCategory = React.forwardRef(({ title, cards }, ref) => {
   return (
     <div ref={ref}>
       <h2 className={`${styles.title} text text_type_main-medium mt-10 mb-6`}>{title}</h2>
-      {loadingStatus === 'loading' && <Spinner></Spinner>}
-      {loadingStatus === 'error' && <SomethingWrong></SomethingWrong>}
+      {loadingStatus === 'loading' && <Spinner />}
+      {loadingStatus === 'error' && <SomethingWrong />}
       <ul className={`${styles.ingredientsList}`}>
         {
           cards.map((card) => {

@@ -17,4 +17,4 @@ function Empty({ title, text }) {
   )
 }
 
-export default Empty;
+export default React.memo(Empty);

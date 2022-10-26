@@ -16,4 +16,4 @@ function ModalOverlay({ children, handleClose }) {
   )
 }
 
-export default ModalOverlay;
+export default React.memo(ModalOverlay);

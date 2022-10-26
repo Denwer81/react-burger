@@ -1,22 +1,13 @@
-import { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 
-function useModal({ clearOrder, clearCart, clearIngredient }) {
+function useModal() {
   const [isOpen, setIsOpen] = useState(false);
-  const dispatch = useDispatch();
-
-  const clearData = useCallback(() => {
-    clearOrder && dispatch(clearOrder());
-    clearCart && dispatch(clearCart());
-    clearIngredient && dispatch(clearIngredient());
-  }, [clearOrder, clearCart, clearIngredient, dispatch]);
 
   const handleOpen = () => setIsOpen(true);
 
   const handleClose = (e) => {
     if (e.target === e.currentTarget) {
       setIsOpen(false);
-      clearData();
     }
   }
 
@@ -24,7 +15,6 @@ function useModal({ clearOrder, clearCart, clearIngredient }) {
     const handleEscapeKey = (e) => {
       if (e.key === 'Escape') {
         setIsOpen(false);
-        clearData();
       }
     }
     if (isOpen) {
@@ -33,7 +23,7 @@ function useModal({ clearOrder, clearCart, clearIngredient }) {
         document.removeEventListener('keydown', handleEscapeKey);
       }
     }
-  }, [isOpen, setIsOpen, dispatch, clearData]);
+  }, [isOpen, setIsOpen]);
 
   return { isOpen, handleOpen, handleClose }
 }

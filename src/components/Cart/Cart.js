@@ -7,6 +7,7 @@ import useModal from '../../hooks/useModal';
 import { cartIngredientsIdList, totalSumIngredients } from '../../services/BurgerConstructor';
 import { clearCart } from '../../services/BurgerConstructor';
 import { fetchCart, clearOrder } from '../../services/order';
+import useClearData from '../../hooks/useClearData';
 
 import styles from './Cart.module.css';
 
@@ -15,13 +16,22 @@ function Cart() {
   const bun = useSelector(state => state.cart.cartBun);
   const ingredients = useSelector(state => state.cart.cartIngredients);
   const cartIdList = useSelector(state => state.cart.cartIngredientsIdList);
+  const orderNumber = useSelector(state => state.order.orderNumber);
   const price = useSelector(state => state.cart.totalSumIngredients);
-  const { isOpen, handleOpen, handleClose } = useModal({ clearOrder, clearCart });
+  const { isOpen, handleOpen, handleClose } = useModal();
+  const { clearData } = useClearData()
 
   useEffect(() => {
       dispatch(cartIngredientsIdList())
       dispatch(totalSumIngredients())
-  },[dispatch, bun, ingredients])
+  }, [dispatch, bun, ingredients])
+  
+  useEffect(() => {
+    if (!isOpen && orderNumber) {
+      clearData(clearOrder);
+      clearData(clearCart);
+    }
+  }, [isOpen, clearData, orderNumber])
 
   const handleGetOrder = () => {
     if (cartIdList.length !== 0) {

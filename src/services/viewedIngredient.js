@@ -2,8 +2,6 @@ import { createSlice, } from "@reduxjs/toolkit";
 
 const initialState = {
   ingredient: [],
-
-  loadingStatus: 'idle',
 }
 
 const viewedIngredientSlice = createSlice({
