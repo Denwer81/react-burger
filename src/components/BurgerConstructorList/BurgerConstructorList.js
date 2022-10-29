@@ -49,4 +49,4 @@ function BurgerConstructorList({ item, index, moveCard }) {
   )
 }
 
-export default BurgerConstructorList;
+export default React.memo(BurgerConstructorList);

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ingredientDetailsPropTypes } from '../../utils/propsTypes';
 import Modal from '../Ui/Modals/Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
@@ -8,8 +8,8 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 import { setIngredient, clearIngredient } from '../../services/slices/viewedIngredient';
 import useModal from '../../services/hooks/useModal';
 import useDragIngredientsCard from '../../services/hooks/useDragIngredientsCard';
-import useGetCounter from '../../services/hooks/useGetCounter';
 import useClearData from '../../services/hooks/useClearData';
+import { getCounters } from '../../services/selectors/selectors';
 
 import styles from './IngredientsCard.module.css';
 
@@ -22,24 +22,29 @@ function IngredientsCard({ card }) {
   const { name, image, price } = card
   const { isOpen, handleOpen, handleClose } = useModal();
   const { isDrag, dragRef } = useDragIngredientsCard({ card });
-  const { getCounter } = useGetCounter({ card })
   const { clearData } = useClearData();
+  const counter = useSelector(getCounters)
 
   const openModal = () => {
     dispatch(setIngredient(card))
     handleOpen();
   };
 
-  const closeModal = (e) => {
-    handleClose(e);
-    if (isOpen) {
-    }
+  const closeModal = () => {
+    handleClose();
     clearData(clearIngredient);
   }
+
+  useEffect(() => {
+    if (!isOpen) {
+      clearData(clearIngredient);
+    }
+  }, [clearData, isOpen])
+
   return (
     <>
       <li ref={dragRef} onClick={openModal} className={`${styles.card} ${isDrag && styles.drag}`}>
-        {getCounter ? <Counter count={getCounter} size="default" /> : ''}
+        {counter[card._id] ? <Counter count={counter[card._id]} size="default" /> : ''}
         <img className={styles.image} src={image} alt={name} />
         <div className={styles.priceContainer}>
           <p className='text text_type_main-medium mr-2'>{price}</p>

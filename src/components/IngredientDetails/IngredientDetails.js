@@ -1,10 +1,11 @@
 import React from 'react';
-import useSelectors from '../../services/selectors';
+import { useSelector } from 'react-redux';
+import { getViewedIngredient } from '../../services/selectors/selectors';
 
 import styles from './IngredientDetails.module.css';
 
 function IngredientDetails() {
-  const { viewedIngredient } = useSelectors();
+  const viewedIngredient = useSelector(getViewedIngredient);
   const { name, image_large, calories, proteins, fat, carbohydrates } = viewedIngredient;
 
   return (

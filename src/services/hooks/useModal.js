@@ -5,11 +5,7 @@ function useModal() {
 
   const handleOpen = () => setIsOpen(true);
 
-  const handleClose = (e) => {
-    if (e.target === e.currentTarget) {
-      setIsOpen(false);
-    }
-  }
+  const handleClose = () => setIsOpen(false);
 
   useEffect(() => {
     const handleEscapeKey = (e) => {

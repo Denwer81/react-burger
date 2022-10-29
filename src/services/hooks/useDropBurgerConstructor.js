@@ -1,8 +1,9 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useDrop, useDrag } from "react-dnd";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
-import useSelectors from '../selectors';
+import { getCartIngredients } from '../selectors/selectors';
+import debounce from '../../utils/debounce';
 import {
   addCartBun,
   addIngredient,
@@ -11,7 +12,7 @@ import {
 
 const useDropBurgerConstructor = () => {
   const dispatch = useDispatch();
-  const { cartIngredients } = useSelectors();
+  const cartIngredients = useSelector(getCartIngredients);
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: 'ingredient',
@@ -39,12 +40,14 @@ const useDropBurgerConstructor = () => {
     dispatch(updateIngredient(newCards));
   }, [cartIngredients, dispatch]);
 
+  const debouncedMoveCard = useMemo(() => debounce(moveCard), [moveCard]);
 
   return {
     useDrag,
     isHover,
     dropTarget,
-    moveCard
+    moveCard,
+    debouncedMoveCard
   }
 }
 

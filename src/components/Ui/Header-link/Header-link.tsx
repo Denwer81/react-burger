@@ -1,28 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { BurgerIcon, ProfileIcon, ListIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { NavLink, useLocation } from 'react-router-dom'
 
 import styles from './Header-link.module.css';
 
 HeaderButton.propTypes = {
   text: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
-  isActive: PropTypes.bool.isRequired,
+  to: PropTypes.string.isRequired,
 };
 
-function HeaderButton({ text, icon, isActive }: any) {
-  const linkStyle = isActive ? 'primary' : 'secondary';
-  const textStyle = isActive ? styles.linkActive : styles.linkInactive;
+function HeaderButton({ text, icon, to }: any) {
+  let location = useLocation();
+
+  const match = () => {
+    if (location.pathname === '/' && to === '/') {
+      return true;
+    }
+    if (location.pathname !== '/' && to !== '/') {
+      return location.pathname.includes(to)
+    }
+    return false
+  }
+
+  const linkStyle = match() ? 'primary' : 'secondary';
+  const textStyle = match() ? styles.linkActive : styles.linkInactive;
 
   return (
-    <a className={`${textStyle} ${styles.link} p-4 pl-5 pr-5`} href='#'>
-      {icon === 'burger' && <BurgerIcon type={linkStyle} /> }
-      {icon === 'menu' && <ListIcon type={linkStyle} /> }
-      {icon === 'profile' && <ProfileIcon type={linkStyle} /> }
+    <NavLink className={`${styles.link} ${textStyle} p-4 pl-5 pr-5`} to={`${to}`}>
+
+      {icon === 'burger' && <BurgerIcon type={linkStyle} />}
+      {icon === 'menu' && <ListIcon type={linkStyle} />}
+      {icon === 'profile' && <ProfileIcon type={linkStyle} />}
       <p className="text text_type_main-default ml-2">
         {text}
       </p>
-    </a>
+    </NavLink>
   )
 }
 

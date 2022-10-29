@@ -11,8 +11,8 @@ const viewedIngredientSlice = createSlice({
     setIngredient: (state, action) => {
       state.ingredient = action.payload;
     },
-    clearIngredient: (state) => {
-      state.ingredient = [];
+    clearIngredient: () => {
+      return initialState;;
     }
   },
 });

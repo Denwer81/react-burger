@@ -10,7 +10,8 @@ ModalOverlay.propTypes = {
 
 function ModalOverlay({ children, handleClose }) {
   return (
-    <div className={styles.overlay} onClick={handleClose}>
+    <div className={styles.container}>
+      <div className={styles.overlay} onClick={handleClose}></div>
       {children}
     </div>
   )

@@ -1,29 +1,30 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import Wrapper from '../Ui/Wrapper/Wrapper';
 import BurgerConstructorList from '../BurgerConstructorList/BurgerConstructorList';
 import Empty from '../Ui/Empty/Empty';
 import Cart from '../Cart/Cart';
-import useSelectors from '../../services/selectors';
+import { getCartBun, getCartIngredients } from '../../services/selectors/selectors';
 import { deleteIngredient } from '../../services/slices/BurgerConstructor';
 import useDropBurgerConstructor from '../../services/hooks/useDropBurgerConstructor';
-import useIsLocked from '../../services/hooks/useIsLocked';
+import { getIsLocked } from '../../services/selectors/selectors';
 
 import styles from './BurgerConstructor.module.css';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
-  const { isLocked } = useIsLocked();
-  const { cartBun, cartIngredients } = useSelectors();
-  const { isHover, dropTarget, moveCard } = useDropBurgerConstructor();
+  const isLocked = useSelector(getIsLocked);
+  const cartBun = useSelector(getCartBun);
+  const cartIngredients = useSelector(getCartIngredients);
+  const { isHover, dropTarget, debouncedMoveCard } = useDropBurgerConstructor();
 
   const handleDelete = (id) => {
     dispatch(deleteIngredient(id));
   };
 
   const bunElem = (direction, text) => {
-    const bunElem = cartBun[0];
+    const bunElem = cartBun.at(0);
 
     return (
       <div className='mr-7' style={{ minHeight: 80 }}>
@@ -62,7 +63,7 @@ function BurgerConstructor() {
                 return (
                   <BurgerConstructorList
                     key={card.consructorId}
-                    moveCard={moveCard}
+                    moveCard={debouncedMoveCard}
                     item={card}
                     index={index}>
                   </BurgerConstructorList>

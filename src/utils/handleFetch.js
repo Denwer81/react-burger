@@ -1,19 +1,35 @@
-function handleFetch({ url, method = 'GET', token = null }, data) {
-  const body = JSON.stringify(data)
-  const headers = {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer${token}`
-  }
+function handleFetch({ url, method = 'GET', token = null }, data = null) {
+  const options = {
+    method,
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': token ? `Bearer${token}` : null,
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: data ? JSON.stringify(data) : null,
+  };
 
-  return fetch(`${url}`, { method, body, headers })
+  const request = new Request(`${url}`, options);
+
+
+
+  return fetch(request)
     .then(res => {
-      if (!res.ok) {
-        throw new Error(res);
+      if (res.ok) {
+        return res.json()
       }
       return res.json()
+        .then((res) => {
+          throw new Error(res.message);
+        });
     })
     .catch(error => {
-      console.log(error.message)
+      console.log(error);
+      return error
     });
 }
 

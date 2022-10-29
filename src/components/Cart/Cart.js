@@ -1,24 +1,23 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../Ui/Modals/Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import { clearCart } from '../../services/slices/BurgerConstructor';
 import { fetchCart, clearOrder } from '../../services/slices/order';
 import useModal from '../../services/hooks/useModal';
-import useGetCartIdList from '../../services/hooks/useGetCartdList';
-import useGetCartPrice from '../../services/hooks/useGetCartPrice';
+import { getCartIdList, getCartPrice } from '../../services/selectors/selectors';
 import useClearData from '../../services/hooks/useClearData';
-import useSelectors from '../../services/selectors';
+import { getOrderNumber } from '../../services/selectors/selectors';
 
 import styles from './Cart.module.css';
 
 function Cart() {
   const dispatch = useDispatch();
+  const orderNumber = useSelector(getOrderNumber);
   const { isOpen, handleOpen, handleClose } = useModal();
-  const { cartIdList } = useGetCartIdList();
-  const { cartPrice } = useGetCartPrice();
-  const { orderNumber } = useSelectors();
+  const cartIdList = useSelector(getCartIdList);
+  const cartPrice = useSelector(getCartPrice);
   const { clearData } = useClearData()
 
   const handleGetOrder = () => {
@@ -28,13 +27,19 @@ function Cart() {
     }
   };
 
-  const closeModal = (e) => {
-    handleClose(e);
+  const closeModal = () => {
+    handleClose();
     if (orderNumber) {
+      
+    }
+  }
+
+  useEffect(() => {
+    if (!isOpen && orderNumber) {
       clearData(clearOrder);
       clearData(clearCart);
     }
-  }
+  }, [clearData, isOpen, orderNumber])
 
   return (
     <>

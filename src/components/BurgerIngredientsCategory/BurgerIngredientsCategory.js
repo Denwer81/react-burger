@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { ingredientDetailsPropTypes } from '../../utils/propsTypes';
 import IngredientsCard from '../IngredientsCard/IngredientsCard';
 import SomethingWrong from '../Ui/SomethingWrong/SomethingWrong';
 import Spinner from '../Ui/Spinner/Spinner';
-import useSelectors from '../../services/selectors';
+import { getIngredientsLoadingStatus } from '../../services/selectors/selectors';
 
 import styles from './BurgerIngredientsCategory.module.css';
 
 const BurgerIngredientsCategory = React.forwardRef(({ title, cards }, ref) => {
-  const { ingredientsLoadingStatus } = useSelectors();
+  const ingredientsLoadingStatus = useSelector(getIngredientsLoadingStatus)
 
   return (
     <div ref={ref}>

@@ -1,13 +1,15 @@
 import React from 'react';
 import Spinner from '../Ui/Spinner/Spinner';
 import SomethingWrong from '../Ui/SomethingWrong/SomethingWrong';
-import useSelectors from '../../services/selectors';
+import { getOrderNumber, getOrderLoadingStatus } from '../../services/selectors/selectors'; 
 
 import done from '../../image/done.jpg';
 import styles from './OrderDetails.module.css';
+import { useSelector } from 'react-redux';
 
 function OrderDetails() {
-  const { orderNumber, orderLoadingStatus } = useSelectors();
+  const orderNumber = useSelector(getOrderNumber);
+  const orderLoadingStatus = useSelector(getOrderLoadingStatus);
 
   return (
     <>
