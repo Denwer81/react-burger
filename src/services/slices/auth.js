@@ -1,11 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { checkResponseRedux } from "../../utils/handleFetch";
 import {
   handleLogin,
   handleLogout,
   handleRegister,
   handleRefreshToken,
-  handleResetPasswordFirst,
-  handleResetPasswordSecond,
 } from "../../utils/api";
 
 const initialState = {
@@ -16,51 +15,91 @@ const initialState = {
   },
 
   loadingStatus: 'idle',
+  error: null,
 }
 
+
 export const fetchRegister = createAsyncThunk(
-  'auth/fetchBurgersDB',
-  async (data) => {
-    return await handleRegister(data);
+  'auth/fetchRegister',
+  async (data, { rejectWithValue }) => {
+    return await handleRegister(data)
+      .then(res => checkResponseRedux(res, rejectWithValue))
   }
 );
 
 export const fetchLogin = createAsyncThunk(
-  'auth/fetchBurgersDB',
-  async (data) => {
-    return await handleLogin(data);
+  'auth/fetchLogin',
+  async (data, { rejectWithValue }) => {
+    return await handleLogin(data)
+      .then(res => checkResponseRedux(res, rejectWithValue));
+  }
+);
+
+export const fetchLogout = createAsyncThunk(
+  'auth/handleLogout',
+  async (data, { rejectWithValue }) => {
+    return await handleLogout(data)
+      .then(res => checkResponseRedux(res, rejectWithValue))
   }
 );
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchRegister.pending, state => {
+        state.error = null;
         state.loadingStatus = 'loading';
       })
       .addCase(fetchRegister.fulfilled, (state, action) => {
         state.loadingStatus = 'idle';
-        state.user = action.payload.user;
+        if (action.payload.success) {
+          state.user = action.payload.user;
+          state.isAuth = true;
+        };
       })
       .addCase(fetchRegister.rejected, state => {
         state.loadingStatus = 'error';
       })
       .addCase(fetchLogin.pending, state => {
+        state.error = null;
         state.loadingStatus = 'loading';
       })
       .addCase(fetchLogin.fulfilled, (state, action) => {
         state.loadingStatus = 'idle';
-        state.user = action.payload.user;
+        if (action.payload.success) {
+          state.user = action.payload.user;
+          state.isAuth = true;
+        };
       })
       .addCase(fetchLogin.rejected, state => {
+        state.loadingStatus = 'error';
+      })
+      .addCase(fetchLogout.pending, state => {
+        state.error = null;
+        state.loadingStatus = 'loading';
+      })
+      .addCase(fetchLogout.fulfilled, (action) => {
+        if (action.payload.success) {
+          return initialState;
+        };
+      })
+      .addCase(fetchLogout.rejected, state => {
         state.loadingStatus = 'error';
       })
   }
 });
 
-const { reducer } = authSlice;
+const { actions, reducer } = authSlice;
 
 export default reducer;
+
+export const {
+  setError,
+} = actions;

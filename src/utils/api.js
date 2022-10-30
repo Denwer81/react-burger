@@ -1,11 +1,6 @@
 import handleFetch from "./handleFetch";
 import { baseUrlApi } from "./constants";
 
-// POST https://norma.nomoreparties.space/api/auth/login - эндпоинт для авторизации.
-// POST https://norma.nomoreparties.space/api/auth/register - эндпоинт для регистрации пользователя.
-// POST https://norma.nomoreparties.space/api/auth/logout - эндпоинт для выхода из системы.
-// POST https://norma.nomoreparties.space/api/auth/token - эндпоинт обновления токена. 
-
 function getBurgersDB() {
   return handleFetch({ url: `${baseUrlApi}ingredients` })
 }

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 function useModal() {
   const [isOpen, setIsOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+
 
   const handleOpen = () => setIsOpen(true);
 
@@ -21,7 +23,21 @@ function useModal() {
     }
   }, [isOpen, setIsOpen]);
 
-  return { isOpen, handleOpen, handleClose }
+  const handleOpenErrorModal = (errorMessage) => {
+    setErrorMessage(errorMessage)
+    handleOpen();
+    setTimeout(() => {
+      handleClose();
+      setErrorMessage(null)
+    }, 2500)
+  }
+
+  return {
+    isOpen,
+    handleOpen,
+    handleClose,
+    handleOpenErrorModal,
+  }
 }
 
 export default useModal;

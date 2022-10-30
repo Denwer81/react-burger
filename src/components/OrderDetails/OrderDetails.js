@@ -15,7 +15,8 @@ function OrderDetails() {
     <>
       {orderLoadingStatus === 'error' && <SomethingWrong />}
       <p className={`${styles.id} text text_type_digits-large`}>
-        {orderNumber && orderNumber.number}</p>
+        {orderNumber && orderNumber.number}
+      </p>
       {orderLoadingStatus === 'loading' && <Spinner />}
       {orderLoadingStatus === 'idle' && <h1 className='text text_type_main-medium mb-15'>идентификатор заказа</h1>}
       <img className={styles.image} src={done} alt={'Готово'} />

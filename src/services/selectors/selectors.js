@@ -14,6 +14,10 @@ export const getOrderLoadingStatus = state => state.order.loadingStatus
 
 export const getViewedIngredient = state => state.viewedIngredient.ingredient
 
+export const getIsAuth = state => state.auth.isAuth
+export const getUser = state => state.auth.user
+export const getAuthError = state => state.auth.error
+
 export const getCounters = createSelector(getCartIngredients, getCartBun,
   (getCartIngredients, getCartBun) => {
     const counters = {};

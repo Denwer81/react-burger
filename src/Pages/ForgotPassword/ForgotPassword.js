@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useInputs } from '../../services/hooks/useInputs';
 import { Link, useNavigate } from "react-router-dom";
 import { handleResetPasswordFirst } from '../../utils/api';
+import { checkResponseReact } from '../../utils/handleFetch';
 import ErorrModal from '../../components/App/ErrorModal/ErorrModal';
 import useModal from '../../services/hooks/useModal';
 
@@ -10,22 +11,23 @@ import styles from './ForgotPassword.module.css';
 
 function ForgotPassword() {
   const navigate = useNavigate();
-  const [error, setError] = useState(null);
   const { values, handleChange } = useInputs();
-  const { isOpen, handleOpen, handleClose } = useModal();
+  const { isOpen, handleClose, handleOpenErrorModal, errorMessage } = useModal();
 
   const handleSubmit = (e) => {
     e.preventDefault()
     if (values.email) {
       handleResetPasswordFirst(values)
+        .then(res => checkResponseReact(res))
         .then(res => {
-          if (res.success === true) navigate('/reset-password', { state: true })
-          setError(res.message)
-          handleOpen();
-          setTimeout(() => {
-            handleClose();
-            setError(null)
-          }, 2500)
+          if (res.success === true) {
+            navigate('/reset-password', { state: true })
+          }
+          handleOpenErrorModal(res.message)
+        })
+        .catch(res => {
+          handleOpenErrorModal('Server Error!!!')
+          console.log('Server Error!!!', res.message)
         })
     }
   }
@@ -53,7 +55,7 @@ function ForgotPassword() {
       <ErorrModal
         isOpen={isOpen}
         handleClose={handleClose}
-        error={error}>
+        error={errorMessage}>
       </ErorrModal>
     </main>
   );

@@ -1,13 +1,10 @@
 import React from 'react';
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import styles from './NotFound404.module.css';
 
 function NotFound404() {
   const navigate = useNavigate();
-  const location = useLocation();
-  console.log(navigate)
-  console.log(location)
 
   return (
     <main className={styles.main}>

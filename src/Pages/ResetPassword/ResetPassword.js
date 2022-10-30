@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useInputs } from '../../services/hooks/useInputs';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { handleResetPasswordSecond } from '../../utils/api';
+import { checkResponseReact } from '../../utils/handleFetch';
 import ErorrModal from '../../components/App/ErrorModal/ErorrModal';
 import useModal from '../../services/hooks/useModal';
 
@@ -11,28 +12,29 @@ import styles from './ResetPassword.module.css';
 function ResetPassword() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [error, setError] = useState(null)
   const { values, handleChange } = useInputs();
-  const { isOpen, handleOpen, handleClose } = useModal();
+  const { isOpen, handleClose, handleOpenErrorModal, errorMessage } = useModal();
 
   useEffect(() => {
     if (!location.state) {
-      navigate('/forgot-password', { replace: true } )
+      navigate('/forgot-password', { replace: true })
     }
-  },[location.state, navigate])
+  }, [location.state, navigate])
 
   const handleSubmit = (e) => {
     e.preventDefault()
     if (values.password && values.token) {
       handleResetPasswordSecond(values)
+        .then(res => checkResponseReact(res))
         .then(res => {
-          if (res.success === true) navigate('/login');
-          setError(res.message)
-          handleOpen();
-          setTimeout(() => {
-            handleClose();
-            setError(null)
-          }, 2500)
+          if (res.success === true) {
+            navigate('/login')
+          };
+          handleOpenErrorModal(res.message)
+        })
+        .catch(res => {
+          handleOpenErrorModal('Server Error!!!')
+          console.log('Server Error!!!', res.message)
         })
     }
   }
@@ -65,7 +67,7 @@ function ResetPassword() {
       <ErorrModal
         isOpen={isOpen}
         handleClose={handleClose}
-        error={error}>
+        error={errorMessage}>
       </ErorrModal>
     </main>
   );

@@ -1,16 +1,21 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getOrder } from "../../utils/api";
+import { checkResponseRedux } from "../../utils/handleFetch";
+
 
 const initialState = {
   orderName: {},
-  loadingStatus: 'idle',
   orderNumber: null,
+
+  loadingStatus: 'idle',
+  error: null,
 }
 
 export const fetchCart = createAsyncThunk(
   'order/postOrder',
-  async (cart) => {
-    return await getOrder(cart);
+  async (cart, {rejectWithValue}) => {
+    return await getOrder(cart)
+    .then(res => checkResponseRedux(res, rejectWithValue))
   }
 );
 
@@ -32,8 +37,9 @@ const orderSlice = createSlice({
         state.orderName = action.payload.name;
         state.orderNumber = action.payload.order;
       })
-      .addCase(fetchCart.rejected, state => {
+      .addCase(fetchCart.rejected, (state, action) => {
         state.loadingStatus = 'error';
+        state.error = action.payload;
       })
   }
 });
