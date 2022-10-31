@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { checkResponseRedux } from "../../utils/handleFetch";
+import { checkResponseRedux, checkResponseReact } from "../../utils/handleFetch";
 import {
   handleLogin,
   handleLogout,
@@ -31,15 +31,19 @@ export const fetchLogin = createAsyncThunk(
   'auth/fetchLogin',
   async (data, { rejectWithValue }) => {
     return await handleLogin(data)
-      .then(res => checkResponseRedux(res, rejectWithValue));
+      .then(res => checkResponseRedux(res, rejectWithValue))
   }
 );
 
 export const fetchLogout = createAsyncThunk(
   'auth/handleLogout',
-  async (data, { rejectWithValue }) => {
+  async (data) => {
     return await handleLogout(data)
-      .then(res => checkResponseRedux(res, rejectWithValue))
+      .then(res => res.json())
+      .then(res => {
+        console.log(res)
+        return res;
+      })
   }
 );
 
@@ -81,16 +85,15 @@ const authSlice = createSlice({
       .addCase(fetchLogin.rejected, state => {
         state.loadingStatus = 'error';
       })
-      .addCase(fetchLogout.pending, state => {
+      .addCase(fetchLogout.pending, (state, action) => {
         state.error = null;
         state.loadingStatus = 'loading';
       })
       .addCase(fetchLogout.fulfilled, (action) => {
-        if (action.payload.success) {
-          return initialState;
-        };
+        console.log(action.payload)
+        // return initialState;
       })
-      .addCase(fetchLogout.rejected, state => {
+      .addCase(fetchLogout.rejected, (state, action) => {
         state.loadingStatus = 'error';
       })
   }

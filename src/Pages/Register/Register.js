@@ -1,38 +1,18 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useInputs } from '../../services/hooks/useInputs';
-import { Link, useNavigate } from "react-router-dom";
-import ErorrModal from '../../components/App/ErrorModal/ErorrModal';
-import useModal from '../../services/hooks/useModal';
-import { fetchRegister } from '../../services/slices/auth';
-import { setCookie } from '../../utils/handleCookie';
+import { Link } from "react-router-dom";
+import useAuth from '../../services/hooks/useAuth';
+
 
 import styles from './Register.module.css';
 
 function Register() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { values, handleChange } = useInputs();
-  const { isOpen, handleClose, handleOpenErrorModal, errorMessage } = useModal();
+  const { register } = useAuth(values);
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    if (values.name && values.email && values.password.length > 5) {
-      dispatch(fetchRegister(values))
-        .then(res => {
-          if (res.payload.success === true) {
-            navigate('/');
-            setCookie('accessToken', res.payload.accessToken);
-            setCookie('refreshToken', res.payload.refreshToken);
-          }
-          handleOpenErrorModal(res.payload.message || res.payload);
-        })
-        .catch(res => {
-          handleOpenErrorModal('Server Error!!!')
-          console.log('Server Error!!!', res.message)
-        })
-    }
+    register(e)
   }
 
   return (
@@ -68,11 +48,6 @@ function Register() {
           <Link className={styles.link} to='/login'>Войти</Link>
         </p>
       </form>
-      <ErorrModal
-        isOpen={isOpen}
-        handleClose={handleClose}
-        error={errorMessage}>
-      </ErorrModal>
     </main>
   );
 }

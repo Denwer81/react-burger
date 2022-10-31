@@ -21,7 +21,6 @@ function handleFetch({ url, method = 'GET', token = null }, data = null) {
 export const checkResponseRedux = async (res, rejectWithValue = null) => {
   try {
     const response = await res;
-
     if (response.status === 404) {
       throw new Error(response.message || 'Server Error!')
     }

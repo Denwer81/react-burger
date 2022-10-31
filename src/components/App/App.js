@@ -7,14 +7,13 @@ import ErorrModal from './ErrorModal/ErorrModal';
 import useModal from '../../services/hooks/useModal';
 import { useSelector } from 'react-redux';
 import { getAuthError } from '../../services/selectors/selectors';
-import { getCookie } from '../../utils/handleCookie';
 
 import styles from './App.module.css';
 
 function App() {
   const dispatch = useDispatch();
   const authError = useSelector(getAuthError)
-  const { isOpen, handleClose, handleOpenErrorModal, errorMessage } = useModal();
+  const { isOpen, handleClose, handleOpenErrorModal } = useModal();
 
   useEffect(() => {
     dispatch(fetchBurgersDB());
@@ -22,7 +21,7 @@ function App() {
 
   useEffect(() => {
     handleOpenErrorModal();
-    console.log(authError)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authError])
 
   return (
