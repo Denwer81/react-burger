@@ -6,7 +6,7 @@ function handleFetch({ url, method = 'GET', token = null }, data = null) {
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': token ? `Bearer${token}` : null,
+      'Authorization': token ? token : null,
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
@@ -21,6 +21,7 @@ function handleFetch({ url, method = 'GET', token = null }, data = null) {
 export const checkResponseRedux = async (res, rejectWithValue = null) => {
   try {
     const response = await res;
+    console.log(response)
     if (response.status === 404) {
       throw new Error(response.message || 'Server Error!')
     }

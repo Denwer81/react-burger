@@ -1,5 +1,5 @@
 import React from 'react';
-import ModalMessage from '../../Ui/Modals/ModalMessage/ModalMessage';
+import ModalMessage from '../Ui/Modals/ModalMessage/ModalMessage';
 import PropTypes from 'prop-types';
 
 ErrorModal.propTypes = {

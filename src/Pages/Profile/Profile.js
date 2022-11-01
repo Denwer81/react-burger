@@ -1,24 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useInputs } from '../../services/hooks/useInputs';
+import { getUser } from '../../services/selectors/selectors';
 import ProfileNav from '../../components/ProfileNav/ProfileNav';
+import useAuth from '../../services/hooks/useAuth';
 
 import styles from './Profile.module.css';
 
 function Profile() {
-  const { values, handleChange, resetForm } = useInputs();
+  const user = useSelector(getUser);
+  const [disabled, setDisabled] = useState(true);
+  const { values, handleChange, resetForm } = useInputs(user);
+  const { updateUser } = useAuth(values)
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (values.name && values.email && values.password.length > 5) {
-      resetForm()
-      console.log(values)
-    }
+    updateUser();
   }
 
-  const handleClick = () => {
-    console.log(values)
+  const handleClickIcon = () => {
+    setDisabled(false)
   }
+
+  const handleClickCancel = () => {
+    setDisabled(true)
+    resetForm();
+  }
+
+  useEffect(() => {
+    setDisabled(true)
+  }, [user])
 
   return (
     <main className={styles.main}>
@@ -29,45 +41,53 @@ function Profile() {
           className={styles.form}>
           <Input
             onChange={handleChange}
+            onIconClick={handleClickIcon}
             type={'text'}
             placeholder={'Имя'}
             value={values.name || ''}
             name={'name'}
+            disabled={disabled}
             error={false}
             errorText={'Ошибка'}
             size={'default'}
-            icon={"EditIcon"} 
-            />
+            icon={"EditIcon"}
+          />
           <Input
             onChange={handleChange}
+            onIconClick={handleClickIcon}
             type={'email'}
             placeholder={'Логин'}
-            value={values.login || ''}
-            name={'login'}
+            value={values.email || ''}
+            name={'email'}
+            disabled={disabled}
             error={false}
             errorText={'Ошибка'}
             size={'default'}
             icon={"EditIcon"} />
           <Input
             onChange={handleChange}
-            onIconClick={handleClick}
+            onIconClick={handleClickIcon}
             type={'password'}
             placeholder={'Пароль'}
             value={values.password || ''}
             name={'password'}
-            disabled={false}
+            disabled={disabled}
             error={false}
             errorText={'Ошибка'}
             size={'default'}
             icon={"EditIcon"} />
-          <div className={styles.buttonsContainer}>
-            <Button type="secondary" htmlType="reset" onClick={handleClick}>
-              Отменить
-            </Button>
-            <Button type="primary" htmlType="submit">Сохранить</Button>
-          </div>
+          {
+            !disabled &&
+            <div className={styles.buttonsContainer}>
+              <Button type="secondary" htmlType="reset" onClick={handleClickCancel}>
+                Отменить
+              </Button>
+              <Button type="primary" htmlType="submit">Сохранить</Button>
+            </div>
+          }
+
         </form>
-      </div> 
+      </div>
     </main>
   );
 }

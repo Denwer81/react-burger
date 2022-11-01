@@ -19,7 +19,8 @@ function ResetPassword() {
   }, [location.state, navigate])
 
   const handleSubmit = (e) => {
-    resetPassword(e);
+    e.preventDefault()
+    resetPassword();
   }
 
   return (

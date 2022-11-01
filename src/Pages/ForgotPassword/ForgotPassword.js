@@ -11,7 +11,8 @@ function ForgotPassword() {
   const { forgotPassword } = useAuth(values);
 
   const handleSubmit = (e) => {
-    forgotPassword(e);
+    e.preventDefault()
+    forgotPassword();
   }
 
   return (

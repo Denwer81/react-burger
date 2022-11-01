@@ -12,7 +12,8 @@ function Register() {
   const { register } = useAuth(values);
 
   const handleSubmit = (e) => {
-    register(e)
+    e.preventDefault()
+    register()
   }
 
   return (

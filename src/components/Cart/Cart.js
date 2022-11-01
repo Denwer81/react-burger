@@ -30,16 +30,10 @@ function Cart() {
   const closeModal = () => {
     handleClose();
     if (orderNumber) {
-      
-    }
-  }
-
-  useEffect(() => {
-    if (!isOpen && orderNumber) {
       clearData(clearOrder);
       clearData(clearCart);
     }
-  }, [clearData, isOpen, orderNumber])
+  }
 
   return (
     <>

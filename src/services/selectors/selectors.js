@@ -11,6 +11,7 @@ export const getCartIngredients = state => state.cart.cartIngredients
 export const getOrderName = state => state.order.orderName
 export const getOrderNumber = state => state.order.orderNumber
 export const getOrderLoadingStatus = state => state.order.loadingStatus
+export const getOrderError = state => state.order.error
 
 export const getViewedIngredient = state => state.viewedIngredient.ingredient
 

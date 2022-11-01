@@ -13,7 +13,8 @@ function Login() {
   const { login } = useAuth(values);
 
   const handleSubmit = (e) => {
-    login(e)
+    e.preventDefault()
+    login()
   }
 
   return (

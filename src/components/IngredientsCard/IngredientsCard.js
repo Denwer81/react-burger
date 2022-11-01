@@ -35,12 +35,6 @@ function IngredientsCard({ card }) {
     clearData(clearIngredient);
   }
 
-  useEffect(() => {
-    if (!isOpen) {
-      clearData(clearIngredient);
-    }
-  }, [clearData, isOpen])
-
   return (
     <>
       <li ref={dragRef} onClick={openModal} className={`${styles.card} ${isDrag && styles.drag}`}>

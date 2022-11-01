@@ -1,11 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export function useInputs() {
+export function useInputs(data) {
   const [values, setValues] = useState({});
   const [inputs, setInputs] = useState({});
-  const [icons, setsIcon] = useState({});
-  const [errors, setErrors] = useState({});
   const [isValid, setIsValid] = useState();
+
+  useEffect(() => {
+    if (data) {
+      setValues(data);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
 
 
   const handleChange = (event) => {
@@ -24,9 +29,8 @@ export function useInputs() {
 
   function resetForm() {
     setValues({});
-    setTimeout(() => {
-      Object.values(inputs).forEach(input => input.value = '')
-    }, 100)
+    setIsValid({})
+    setValues(data)
   }
 
   return { values, handleChange, isValid, resetForm };
