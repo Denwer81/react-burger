@@ -1,10 +1,14 @@
 import React from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import styles from './NotFound404.module.css';
 
 function NotFound404() {
   const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(-1, { replace: true })
+  };
 
   return (
     <main className={styles.main}>
@@ -14,9 +18,12 @@ function NotFound404() {
       <p className={`${styles.text} text text_type_main-default`}>
         такой страници нет...
       </p>
-      <Link className={`${styles.link} text_type_main-large`} to={navigate(-1, { replace: true })}>
+      <button
+        className={`${styles.link} text_type_main-large`}
+        onClick={handleClick}
+        type='button'>
         назад
-      </Link>
+      </button>
     </main>
   );
 }

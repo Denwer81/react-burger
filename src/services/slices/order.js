@@ -13,9 +13,10 @@ const initialState = {
 
 export const fetchCart = createAsyncThunk(
   'order/postOrder',
-  async (cart, {rejectWithValue}) => {
-    return await getOrder(cart)
+  async ({ cardList, accessToken }, { rejectWithValue }) => {
+    return await getOrder({ cardList, accessToken })
       .then(res => checkResponseRedux(res, rejectWithValue))
+      .catch(res => console.log(res))
   }
 );
 
@@ -35,6 +36,7 @@ const orderSlice = createSlice({
       })
       .addCase(fetchCart.fulfilled, (state, action) => {
         state.loadingStatus = 'idle';
+        console.log(action.payload)
         if (action.payload.success) {
           state.orderName = action.payload.name;
           state.orderNumber = action.payload.order;

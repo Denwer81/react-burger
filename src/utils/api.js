@@ -5,8 +5,8 @@ function getBurgersDB() {
   return handleFetch({ url: `${baseUrlApi}ingredients` })
 }
 
-function getOrder(cart) {
-  return handleFetch({ url: `${baseUrlApi}orders`, method: 'POST' }, cart)
+function getOrder({ cardList, accessToken }) {
+  return handleFetch({ url: `${baseUrlApi}orders`, token: accessToken, method: 'POST' }, cardList)
 }
 
 function handleLogin(data) {

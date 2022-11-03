@@ -5,6 +5,8 @@
   position: relative;
   align-items: center;
   text-align: center;
+  text-decoration: none;
+  color: white;
   cursor: pointer;
   transition: all .2s ease-in;
 }

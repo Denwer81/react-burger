@@ -1,61 +1,52 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import Modal from '../Ui/Modals/Modal/Modal';
-import OrderDetails from '../OrderDetails/OrderDetails';
-import { clearCart } from '../../services/slices/BurgerConstructor';
-import { fetchCart, clearOrder } from '../../services/slices/order';
-import useModal from '../../services/hooks/useModal';
+import { fetchCart } from '../../services/slices/order';
 import { getCartIdList, getCartPrice } from '../../services/selectors/selectors';
-import useClearData from '../../services/hooks/useClearData';
-import { getOrderNumber } from '../../services/selectors/selectors';
+import { useLocation, useNavigate } from "react-router-dom";
+import { getIsAuth } from '../../services/selectors/selectors';
+import { getCookie } from '../../utils/handleCookie';
 
 import styles from './Cart.module.css';
 
 function Cart() {
   const dispatch = useDispatch();
-  const orderNumber = useSelector(getOrderNumber);
-  const { isOpen, handleOpen, handleClose } = useModal();
+  const navigate = useNavigate();
+  const location = useLocation();
   const cartIdList = useSelector(getCartIdList);
   const cartPrice = useSelector(getCartPrice);
-  const { clearData } = useClearData()
+  const isAuth = useSelector(getIsAuth);
+  const accessToken = getCookie('accessToken');
 
-  const handleGetOrder = () => {
-    if (cartIdList.length !== 0) {
-      dispatch(fetchCart({ ingredients: cartIdList }));
-      handleOpen();
+  const handleGetOrder = async () => {
+    if (!isAuth) {
+      navigate('/login')
+    } else {
+      if (cartIdList.length !== 0) {
+        const cardList = { ingredients: cartIdList };
+        const order = await dispatch(fetchCart({ cardList, accessToken }));
+        const orderNumber = order.payload.order.number;
+
+        navigate(`/profile/orders/${orderNumber}`,
+          { state: { background: location } })
+      }
     }
   };
 
-  const closeModal = () => {
-    handleClose();
-    if (orderNumber) {
-      clearData(clearOrder);
-      clearData(clearCart);
-    }
-  }
-
   return (
-    <>
-      <div className={`${styles.container} mt-10`}>
-        <p className='text text_type_main-large'>{cartPrice}</p>
-        <div className='ml-2 mr-10'>
-          <CurrencyIcon type="primary" />
-        </div>
-        <Button
-          onClick={handleGetOrder}
-          type="primary"
-          size="large"
-          htmlType='button'>
-          Оформить заказ
-        </Button>
+    <div className={`${styles.container} mt-10`}>
+      <p className='text text_type_main-large'>{cartPrice}</p>
+      <div className='ml-2 mr-10'>
+        <CurrencyIcon type="primary" />
       </div>
-      <Modal
-        isOpen={isOpen}
-        handleClose={closeModal}>
-        <OrderDetails />
-      </Modal>
-    </>
+      <Button
+        onClick={handleGetOrder}
+        type="primary"
+        size="large"
+        htmlType='button'>
+        Оформить заказ
+      </Button>
+    </div>
   )
 }
 

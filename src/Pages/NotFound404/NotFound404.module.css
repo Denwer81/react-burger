@@ -11,8 +11,13 @@
 
 .link {
   color: white;
-  text-decoration: none;
+  /* text-decoration: none; */
   transition: all .2s ease-in;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+  padding: 0;
 }
 
 .link:hover {

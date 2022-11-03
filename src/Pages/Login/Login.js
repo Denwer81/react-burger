@@ -6,7 +6,7 @@ import useAuth from '../../services/hooks/useAuth';
 
 import styles from './Login.module.css';
 
-// {name: 'vvxxddfs', email: 'qqqqqq@qq.ru', password: 'qqqqqq'}
+//! testUser { email: 'qqqqqq@qq.ru', password: 'qqqqqq'}
 
 function Login() {
   const { values, handleChange } = useInputs();

@@ -1,5 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit'
 
+export const getAllIngredients = state => state.ingredients.ingredients
 export const getIngredientsBun = state => state.ingredients.bun
 export const getIngredientsMain = state => state.ingredients.main
 export const getIngredientsSauce = state => state.ingredients.sauce

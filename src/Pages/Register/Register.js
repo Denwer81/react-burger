@@ -4,7 +4,6 @@ import { useInputs } from '../../services/hooks/useInputs';
 import { Link } from "react-router-dom";
 import useAuth from '../../services/hooks/useAuth';
 
-
 import styles from './Register.module.css';
 
 function Register() {

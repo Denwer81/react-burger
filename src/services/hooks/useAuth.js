@@ -22,7 +22,6 @@ const useAuth = (values) => {
       dispatch(fetchLogin(values))
         .then(res => {
           if (res.payload.success === true) {
-            navigate('/');
             setCookie('accessToken', res.payload.accessToken);
             setCookie('refreshToken', res.payload.refreshToken);
           } else {
@@ -41,7 +40,6 @@ const useAuth = (values) => {
       dispatch(fetchRegister(values))
         .then(res => {
           if (res.payload.success === true) {
-            navigate('/');
             setCookie('accessToken', res.payload.accessToken);
             setCookie('refreshToken', res.payload.refreshToken);
           } else {
@@ -147,7 +145,7 @@ const useAuth = (values) => {
         if (res.payload.success === true) {
           deleteCookie('accessToken');
           deleteCookie('refreshToken');
-          navigate('/');
+          navigate('/login')
         } else {
           dispatch(setError(res.payload.message || res.payload));
         }

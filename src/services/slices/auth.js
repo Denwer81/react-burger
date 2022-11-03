@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { checkResponseRedux, checkResponseReact } from "../../utils/handleFetch";
+import { checkResponseRedux } from "../../utils/handleFetch";
 import {
   handleLogin,
   handleLogout,

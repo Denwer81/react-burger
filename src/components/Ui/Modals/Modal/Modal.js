@@ -1,22 +1,21 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import ReactDOM from "react-dom";
 import PropTypes from 'prop-types';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
-import useAnimation from '../../../../services/hooks/useAnimation';
+// import useAnimation from '../../../../services/hooks/useAnimation';
 
 import styles from './Modal.module.css';
 
 Modal.propTypes = {
   children: PropTypes.element,
-  isOpen: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
 };
 
-function Modal({ children, isOpen, handleClose }) {
+function Modal({ children, handleClose }) {
   const modalRef = useRef()
-  const { mounted } = useAnimation(modalRef, styles.visible, isOpen)
+  // const { mounted } = useAnimation(modalRef, styles.visible, isOpen)
 
-  if (!mounted) return null
+  // if (!mounted) return null
 
   return ReactDOM.createPortal(
     <ModalOverlay handleClose={handleClose}>

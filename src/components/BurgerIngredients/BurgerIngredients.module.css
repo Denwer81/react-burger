@@ -9,7 +9,7 @@
 }
 
 .BurgerContainer {
-  height: calc(100vh - 284px);
+  height: calc(100vh - 244px);
   overflow-y: scroll;
 }
 
