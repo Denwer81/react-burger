@@ -36,7 +36,7 @@ function ResetPassword() {
           name={'password'} />
         <Input
           type={'text'}
-          placeholder={'Введите коди из письма'}
+          placeholder={'Введите код из письма'}
           value={values.token || ''}
           name={'token'}
           error={false}

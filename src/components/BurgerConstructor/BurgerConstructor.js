@@ -27,7 +27,7 @@ function BurgerConstructor() {
     const bunElem = cartBun.at(0);
 
     return (
-      <div className='mr-7' style={{ minHeight: 80 }}>
+      <div className={styles.container}>
         {
           cartBun.length !== 0 &&
           <ConstructorElement
@@ -52,7 +52,7 @@ function BurgerConstructor() {
           {
             (!cartIngredients.length && !cartBun.length)
               ?
-              <li style={{ margin: 'auto', alignSelf: 'center' }}>
+              <li className={`${styles.ingredient}`}>
                 <Empty
                   title={'В корзине пусто'}
                   text={'Перетащите сюда ингредиенты...'}>

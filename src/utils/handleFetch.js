@@ -18,25 +18,69 @@ function handleFetch({ url, method = 'GET', token = null }, data = null) {
   return fetch(request);
 }
 
-export const checkResponseRedux = async (res, rejectWithValue = null) => {
+// export const checkResponseRedux = async (res, rejectWithValue = null) => {
+//   try {
+//     const response = await res;
+//     if (!response.status) {
+//       throw new Error(response.message || 'Server Error!')
+//     }
+//     return response.json();
+
+//   } catch (error) {
+//     return rejectWithValue({ status: false, message:error.message })
+//   }
+// }
+
+// export const checkResponseRedux = async (res, rejectWithValue) => {
+//   try {
+//     const response = await res;
+//     if (response.status === 404) {
+//       throw new Error(response.message || 'Server Error!')
+//     }
+//     return response.json();
+
+//   } catch (error) {
+//     return rejectWithValue({ status: false, message:error.message })
+//   }
+// }
+
+export const checkResponseRedux = async (res, rejectWithValue) => {
   try {
-    const response = await res;
-    console.log(response)
-    if (response.status === 404) {
-      throw new Error(response.message || 'Server Error!')
+    const response = await res
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error('Server Error!')
+      } else {
+        const error = await response.json();
+        throw new Error(error.message)
+      }
     }
     return response.json();
 
   } catch (error) {
-    console.log(error)
-    return rejectWithValue(error.message)
+    return rejectWithValue({ status: false, message: error.message })
   }
 }
 
 export const checkResponseReact = async (res) => {
-  const response = await res;
+  try {
+    const response = await res
 
-  return response.json();
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error('Server Error!')
+      } else {
+        const error = await response.json();
+        throw new Error(error.message)
+      }
+    }
+    return response.json();
+
+  } catch (error) {
+    console.log(error.message)
+    return error
+  }
 }
 
 export default handleFetch;

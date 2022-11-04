@@ -13,7 +13,7 @@ function IngredientDetails() {
   const location = useLocation();
   const allIngredients = useSelector(getAllIngredients);
   const viewedIngredient = allIngredients
-    .filter((item) => item._id === params.ingredientId).at(0)
+    .find((item) => item._id === params.ingredientId)
   const { name, image_large, calories, proteins, fat, carbohydrates } = viewedIngredient || {};
 
   useEffect(() => {

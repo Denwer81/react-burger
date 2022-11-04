@@ -13,6 +13,14 @@ import {
   fetchUpdateUser,
 } from '../slices/auth';
 
+const handleSetAccessToken = (res) => {
+  setCookie('accessToken', res.payload.accessToken, { expires: 60 * 60 * 24 * 7, path: '/' });
+}
+
+const handleSetRefreshToken = (res) => {
+  setCookie('refreshToken', res.payload.refreshToken, { expires: 60 * 60 * 24 * 7, path: '/' });
+}
+
 const useAuth = (values) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,15 +30,12 @@ const useAuth = (values) => {
       dispatch(fetchLogin(values))
         .then(res => {
           if (res.payload.success === true) {
-            setCookie('accessToken', res.payload.accessToken);
-            setCookie('refreshToken', res.payload.refreshToken);
+            handleSetAccessToken(res);
+            handleSetRefreshToken(res);
+            navigate(-1);
           } else {
             dispatch(setError(res.payload.message || res.payload));
           }
-        })
-        .catch(res => {
-          dispatch(setError('Server Error!!!'));
-          console.log('Server Error!!!', res.message);
         })
     }
   }
@@ -40,35 +45,30 @@ const useAuth = (values) => {
       dispatch(fetchRegister(values))
         .then(res => {
           if (res.payload.success === true) {
-            setCookie('accessToken', res.payload.accessToken);
-            setCookie('refreshToken', res.payload.refreshToken);
+            handleSetAccessToken(res);
+            handleSetRefreshToken(res);
           } else {
             dispatch(setError(res.payload.message || res.payload));
           }
-        })
-        .catch(res => {
-          dispatch(setError('Server Error!!!'));
-          console.log('Server Error!!!', res.message);
         })
     }
   }
 
   const updateAccessToken = (fn) => {
-    const refreshToken = getCookie('refreshToken')
+    const refreshToken = getCookie('refreshToken');
 
     if (refreshToken) {
       dispatch(fetchUpdateAccessToken({ token: refreshToken }))
         .then(res => {
           if (res.payload.success === true) {
-            setCookie('accessToken', res.payload.accessToken);
-            setCookie('refreshToken', res.payload.refreshToken);
+            handleSetAccessToken(res);
+            handleSetRefreshToken(res);
             fn();
           } else {
             deleteCookie('accessToken');
             deleteCookie('refreshToken');
           }
         })
-        .catch(res => console.log(res))
     }
   }
 
@@ -78,25 +78,28 @@ const useAuth = (values) => {
     if (accessToken) {
       dispatch(fetchGetUser(accessToken))
         .then(res => {
-          if (res.payload.message === 'jwt expired')
-            updateAccessToken(getUser)
+          if (res.payload.status === false) {
+            dispatch(setError(res.payload.message || res.payload));
+            if (res.payload.message === 'jwt expired') {
+              updateAccessToken(getUser)
+            }
+          }
         })
-        .catch(res => console.log(res))
     }
   }
 
   const updateUser = () => {
     const accessToken = getCookie('accessToken');
 
-    if (values.name && values.email && values.password) {
+    if (values.name && values.email) {
       dispatch(fetchUpdateUser({ accessToken, values }))
         .then(res => {
-          if (res.payload.message === 'jwt expired')
-            updateAccessToken(updateUser)
-        })
-        .catch(res => {
-          dispatch(setError('Server Error!!!'));
-          console.log('Server Error!!!');
+          if (res.payload.status === false) {
+            dispatch(setError(res.payload.message || res.payload));
+            if (res.payload.message === 'jwt expired') {
+              updateAccessToken(updateUser)
+            }
+          }
         })
     }
   }
@@ -112,10 +115,6 @@ const useAuth = (values) => {
             dispatch(setError(res.message))
           }
         })
-        .catch(res => {
-          dispatch(setError('Server Error!!!'))
-          console.log('Server Error!!!', res.message)
-        })
     }
   }
 
@@ -126,13 +125,8 @@ const useAuth = (values) => {
         .then(res => {
           if (res.success === true) {
             navigate('/login')
-          } else {
-            dispatch(setError(res.message))
           }
-        })
-        .catch(res => {
-          dispatch(setError('Server Error!!!'))
-          console.log('Server Error!!!', res.message)
+          dispatch(setError(res.message))
         })
     }
   }
@@ -149,10 +143,6 @@ const useAuth = (values) => {
         } else {
           dispatch(setError(res.payload.message || res.payload));
         }
-      })
-      .catch(res => {
-        dispatch(setError('Server Error!!!'))
-        console.log('Server Error!!!', res.message)
       })
   }
 

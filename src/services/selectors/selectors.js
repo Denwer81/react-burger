@@ -26,7 +26,7 @@ export const getCounters = createSelector(getCartIngredients, getCartBun,
 
     [...getCartIngredients, ...getCartBun].forEach(item => {
       if (!counters[item._id]) counters[item._id] = 0
-      ++counters[item._id]
+      item.type === 'bun' ? counters[item._id] = 2 : ++counters[item._id]
     })
     return counters;
   }

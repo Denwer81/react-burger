@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { fetchCart } from '../../services/slices/order';
@@ -13,6 +13,7 @@ function Cart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const [isDisable, setIsDisable] = useState(false);
   const cartIdList = useSelector(getCartIdList);
   const cartPrice = useSelector(getCartPrice);
   const isAuth = useSelector(getIsAuth);
@@ -23,10 +24,12 @@ function Cart() {
       navigate('/login')
     } else {
       if (cartIdList.length !== 0) {
+        setIsDisable(true);
         const cardList = { ingredients: cartIdList };
         const order = await dispatch(fetchCart({ cardList, accessToken }));
         const orderNumber = order.payload.order.number;
 
+        setIsDisable(false);
         navigate(`/profile/orders/${orderNumber}`,
           { state: { background: location } })
       }
@@ -43,7 +46,8 @@ function Cart() {
         onClick={handleGetOrder}
         type="primary"
         size="large"
-        htmlType='button'>
+        htmlType='button'
+        disabled={isDisable}>
         Оформить заказ
       </Button>
     </div>

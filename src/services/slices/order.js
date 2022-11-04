@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getOrder } from "../../utils/api";
 import { checkResponseRedux } from "../../utils/handleFetch";
-
+import { REQUEST_STATUS } from "../../utils/constants";
 
 const initialState = {
   orderName: {},
@@ -32,11 +32,10 @@ const orderSlice = createSlice({
     builder
       .addCase(fetchCart.pending, state => {
         state.error = null;
-        state.loadingStatus = 'loading';
+        state.loadingStatus = REQUEST_STATUS.loading;
       })
       .addCase(fetchCart.fulfilled, (state, action) => {
-        state.loadingStatus = 'idle';
-        console.log(action.payload)
+        state.loadingStatus = REQUEST_STATUS.idle;
         if (action.payload.success) {
           state.orderName = action.payload.name;
           state.orderNumber = action.payload.order;
@@ -45,7 +44,7 @@ const orderSlice = createSlice({
         }
       })
       .addCase(fetchCart.rejected, (state, action) => {
-        state.loadingStatus = 'error';
+        state.loadingStatus = REQUEST_STATUS.error;
         state.error = action.payload.message;
       })
   }

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { checkResponseRedux } from "../../utils/handleFetch";
+import { REQUEST_STATUS } from "../../utils/constants";
 import {
   handleLogin,
   handleLogout,
@@ -13,7 +14,7 @@ const initialState = {
   isAuth: false,
   user: {
     email: "",
-    name: ""
+    name: "",
   },
 
   loadingStatus: 'idle',
@@ -57,7 +58,7 @@ export const fetchUpdateAccessToken = createAsyncThunk(
   'auth/fetchUpdateAccessToken',
   async (accessToken, { rejectWithValue }) => {
     return await handleUpdateAccessToken(accessToken)
-      .then(res => checkResponseRedux(res, rejectWithValue)) // checkResponseReact
+      .then(res => checkResponseRedux(res, rejectWithValue))
   }
 );
 
@@ -65,7 +66,7 @@ export const fetchUpdateUser = createAsyncThunk(
   'auth/fetchUpdateUser',
   async ({ accessToken, values }, { rejectWithValue }) => {
     return await handleUpdatetUser({ accessToken, values })
-      .then(res => checkResponseRedux(res, rejectWithValue)) // checkResponseReact
+      .then(res => checkResponseRedux(res, rejectWithValue))
   }
 );
 
@@ -81,80 +82,80 @@ const authSlice = createSlice({
     builder
       .addCase(fetchRegister.pending, (state, action) => {
         state.error = null;
-        state.loadingStatus = 'loading';
+        state.loadingStatus = REQUEST_STATUS.loading;
       })
       .addCase(fetchRegister.fulfilled, (state, action) => {
-        state.loadingStatus = 'idle';
+        state.loadingStatus = REQUEST_STATUS.idle;
         if (action.payload.success) {
           state.user = action.payload.user;
           state.isAuth = true;
         };
       })
       .addCase(fetchRegister.rejected, (state, action) => {
-        state.loadingStatus = 'error';
+        state.loadingStatus = REQUEST_STATUS.error;
       })
       .addCase(fetchLogin.pending, (state, action) => {
         state.error = null;
-        state.loadingStatus = 'loading';
+        state.loadingStatus = REQUEST_STATUS.loading;
       })
       .addCase(fetchLogin.fulfilled, (state, action) => {
-        state.loadingStatus = 'idle';
+        state.loadingStatus = REQUEST_STATUS.idle;
         if (action.payload.success) {
           state.user = action.payload.user;
           state.isAuth = true;
         };
       })
       .addCase(fetchLogin.rejected, (state, action) => {
-        state.loadingStatus = 'error';
+        state.loadingStatus = REQUEST_STATUS.error;
       })
       .addCase(fetchLogout.pending, (state, action) => {
         state.error = null;
-        state.loadingStatus = 'loading';
+        state.loadingStatus = REQUEST_STATUS.loading;
       })
       .addCase(fetchLogout.fulfilled, (state, action) => {
         if (action.payload.success === true)
           return initialState;
       })
       .addCase(fetchLogout.rejected, (state, action) => {
-        state.loadingStatus = 'error';
+        state.loadingStatus = REQUEST_STATUS.error;
       })
       .addCase(fetchGetUser.pending, (state, action) => {
         state.error = null;
-        state.loadingStatus = 'loading';
+        state.loadingStatus = REQUEST_STATUS.loading;
       })
       .addCase(fetchGetUser.fulfilled, (state, action) => {
-        state.loadingStatus = 'idle';
+        state.loadingStatus = REQUEST_STATUS.idle;
         if (action.payload.success) {
           state.user = action.payload.user;
           state.isAuth = true;
         };
       })
       .addCase(fetchGetUser.rejected, (state, action) => {
-        state.loadingStatus = 'error';
+        state.loadingStatus = REQUEST_STATUS.error;
       })
       .addCase(fetchUpdateAccessToken.pending, (state, action) => {
         state.error = null;
-        state.loadingStatus = 'loading';
+        state.loadingStatus = REQUEST_STATUS.loading;
       })
       .addCase(fetchUpdateAccessToken.fulfilled, (state, action) => {
-        state.loadingStatus = 'idle';
+        state.loadingStatus = REQUEST_STATUS.idle;
       })
       .addCase(fetchUpdateAccessToken.rejected, (state, action) => {
-        state.loadingStatus = 'error';
+        state.loadingStatus = REQUEST_STATUS.error;
       })
       .addCase(fetchUpdateUser.pending, (state, action) => {
         state.error = null;
-        state.loadingStatus = 'loading';
+        state.loadingStatus = REQUEST_STATUS.loading;
       })
       .addCase(fetchUpdateUser.fulfilled, (state, action) => {
-        state.loadingStatus = 'idle';
+        state.loadingStatus = REQUEST_STATUS.idle;
         if (action.payload.success) {
           state.user = action.payload.user;
           state.isAuth = true;
         };
       })
       .addCase(fetchUpdateUser.rejected, (state, action) => {
-        state.loadingStatus = 'error';
+        state.loadingStatus = REQUEST_STATUS.error;
       })
   }
 });

@@ -43,7 +43,7 @@ function Register() {
           onChange={handleChange}
           value={values.password || ''}
           name={'password'} />
-        <Button type="primary" size="medium" htmlType="submit">Зарегестрироваться</Button>
+        <Button type="primary" size="medium" htmlType="submit">Зарегистрироваться</Button>
         <p className={`${styles.text} text text_type_main-default mt-20`}>Уже зарегестрированы?
           <Link className={styles.link} to='/login'>Войти</Link>
         </p>
