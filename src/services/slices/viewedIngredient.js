@@ -2,8 +2,6 @@ import { createSlice, } from "@reduxjs/toolkit";
 
 const initialState = {
   ingredient: [],
-
-  loadingStatus: 'idle',
 }
 
 const viewedIngredientSlice = createSlice({
@@ -13,8 +11,8 @@ const viewedIngredientSlice = createSlice({
     setIngredient: (state, action) => {
       state.ingredient = action.payload;
     },
-    clearIngredient: (state) => {
-      state.ingredient = [];
+    clearIngredient: () => {
+      return initialState;;
     }
   },
 });

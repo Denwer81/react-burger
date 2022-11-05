@@ -1,13 +1,15 @@
 import React from 'react';
 
-const SomethingWrong = () => {
+import styles from './SomethingWrong.module.css';
+
+const SomethingWrong = ({ error }) => {
   return (
     <>
-      <h2 className={'text text_type_main-medium mt-10 mb-6'}>
+      <h2 className={`${styles.title} text text_type_main-medium mb-6 `}>
         Что-то пошло не так...
       </h2>
-      <p className={'text text_type_main-default mb-6'}>
-        Попробуйте перегазругить страницу
+      <p className={'text text_type_main-default mb-10'}>
+        {error || "Попробуйте перезагрузить страницу"}
       </p>
     </>
   )

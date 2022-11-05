@@ -10,6 +10,11 @@
   box-shadow:inset 0px 0px 100px rgba(51, 51, 255, 0.25), 0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
 }
 
+.container {
+  min-height: 80px;
+  margin-right: 28px;
+}
+
 .ingredientsList {
   width: 100%;
   height: calc(100vh - 490px);
@@ -32,4 +37,9 @@
 
 .ingredientsList::-webkit-scrollbar-thumb {
   background-color: var(--text-inactive-color);
+}
+
+.ingredient {
+  margin: auto;
+  align-self: center;
 }

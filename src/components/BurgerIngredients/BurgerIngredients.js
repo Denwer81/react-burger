@@ -1,22 +1,22 @@
 import React, {  useRef } from 'react';
-import { useSelector } from 'react-redux';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientsCategory from '../BurgerIngredientsCategory/BurgerIngredientsCategory';
 import Wrapper from '../Ui/Wrapper/Wrapper';
-import debounce from '../../utils/debounce';
-import useScrollTab from '../../hooks/useScrollTab';
+import useScrollTab from '../../services/hooks/useScrollTab';
+import { getIngredientsBun, getIngredientsMain, getIngredientsSauce } from '../../services/selectors/selectors';
 
 import styles from './BurgerIngredients.module.css';
+import { useSelector } from 'react-redux';
 
 function BurgerIngredients() {
-  const bun = useSelector(state => state.ingredients.bun);
-  const main = useSelector(state => state.ingredients.main);
-  const sauce = useSelector(state => state.ingredients.sauce);
   const containerRef = useRef(null);
   const bunRef = useRef(null);
   const sauceRef = useRef(null);
   const mainRef = useRef(null);
-  const { scrollToTab, currentTab, handleSetCurrentTab } = useScrollTab({
+  const ingredientsBun = useSelector(getIngredientsBun);
+  const ingredientsmain = useSelector(getIngredientsMain);
+  const ingredientsSauce = useSelector(getIngredientsSauce);
+  const { scrollToTab, currentTab, debounceSetCurrentTab } = useScrollTab({
     containerRef,
     bunRef,
     sauceRef,
@@ -50,10 +50,10 @@ function BurgerIngredients() {
         <div
           ref={containerRef}
           className={styles.BurgerContainer}
-          onScroll={debounce(handleSetCurrentTab, 150)}>
-          <BurgerIngredientsCategory ref={bunRef} title={'Булки'} cards={bun} />
-          <BurgerIngredientsCategory ref={sauceRef} title={'Соусы'} cards={sauce} />
-          <BurgerIngredientsCategory ref={mainRef} title={'Начинки'} cards={main} />
+          onScroll={debounceSetCurrentTab}>
+          <BurgerIngredientsCategory ref={bunRef} title={'Булки'} cards={ingredientsBun} />
+          <BurgerIngredientsCategory ref={sauceRef} title={'Соусы'} cards={ingredientsSauce} />
+          <BurgerIngredientsCategory ref={mainRef} title={'Начинки'} cards={ingredientsmain} />
         </div>
       </section>
     </Wrapper>

@@ -1,68 +1,35 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useDrop } from "react-dnd";
-import { nanoid } from '@reduxjs/toolkit';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import Wrapper from '../Ui/Wrapper/Wrapper';
 import BurgerConstructorList from '../BurgerConstructorList/BurgerConstructorList';
 import Empty from '../Ui/Empty/Empty';
 import Cart from '../Cart/Cart';
-import {
-  addCartBun,
-  addIngredient,
-  updateIngredient,
-  deleteIngredient
-} from '../../services/BurgerConstructor';
+import { getCartBun, getCartIngredients } from '../../services/selectors/selectors';
+import { deleteIngredient } from '../../services/slices/BurgerConstructor';
+import useDropBurgerConstructor from '../../services/hooks/useDropBurgerConstructor';
+import { getIsLocked } from '../../services/selectors/selectors';
 
 import styles from './BurgerConstructor.module.css';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
-  const [isLocked, setIsLocked] = useState(false);
-  const bun = useSelector(state => state.cart.cartBun);
-  const ingredients = useSelector(state => state.cart.cartIngredients);
-
-  useEffect(() => {
-    ingredients.length === 0 ? setIsLocked(false) : setIsLocked(true)
-  }, [ingredients]);
-
-  const [{ isHover }, dropTarget] = useDrop({
-    accept: 'ingredient',
-    drop(card) {
-      const cardWithId = { ...card, consructorId: nanoid() }
-
-      if (card.type === 'bun') {
-        dispatch(addCartBun(cardWithId))
-      } else {
-        dispatch(addIngredient(cardWithId))
-      }
-    },
-    collect: monitor => ({
-      isHover: monitor.isOver()
-    })
-  });
-
-  const moveCard = useCallback((dragIndex, hoverIndex) => {
-    const dragCard = ingredients[dragIndex];
-    const newCards = [...ingredients]
-
-    newCards.splice(dragIndex, 1)
-    newCards.splice(hoverIndex, 0, dragCard)
-
-    dispatch(updateIngredient(newCards));
-  }, [ingredients, dispatch]);
+  const isLocked = useSelector(getIsLocked);
+  const cartBun = useSelector(getCartBun);
+  const cartIngredients = useSelector(getCartIngredients);
+  const { isHover, dropTarget, debouncedMoveCard } = useDropBurgerConstructor();
 
   const handleDelete = (id) => {
     dispatch(deleteIngredient(id));
   };
 
   const bunElem = (direction, text) => {
-    const bunElem = bun[0];
+    const bunElem = cartBun.at(0);
 
     return (
-      <div className='mr-7' style={{ minHeight: 80 }}>
+      <div className={styles.container}>
         {
-          bun.length !== 0 &&
+          cartBun.length !== 0 &&
           <ConstructorElement
             handleClose={() => handleDelete(bunElem.consructorId)}
             type={direction}
@@ -83,18 +50,20 @@ function BurgerConstructor() {
         {bunElem('top', 'верх')}
         <ul className={`${styles.ingredientsList} mt-4`}>
           {
-            (ingredients.length === 0 && bun.length === 0)
+            (!cartIngredients.length && !cartBun.length)
               ?
-              <Empty
-                title={'В корзине пусто'}
-                text={'Перетащите сюда ингредиенты...'}>
-              </Empty>
+              <li className={`${styles.ingredient}`}>
+                <Empty
+                  title={'В корзине пусто'}
+                  text={'Перетащите сюда ингредиенты...'}>
+                </Empty>
+              </li>
               :
-              ingredients.map((card, index) => {
+              cartIngredients.map((card, index) => {
                 return (
                   <BurgerConstructorList
                     key={card.consructorId}
-                    moveCard={moveCard}
+                    moveCard={debouncedMoveCard}
                     item={card}
                     index={index}>
                   </BurgerConstructorList>

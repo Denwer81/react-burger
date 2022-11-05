@@ -7,4 +7,4 @@ function Wrapper(props: any) {
   )
 }
 
-export default Wrapper;
+export default React.memo(Wrapper);
