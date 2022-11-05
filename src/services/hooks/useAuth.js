@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
-import { useNavigate } from "react-router-dom";
-import { setCookie, getCookie, deleteCookie } from '../../utils/handleCookie';
+import { useNavigate, useLocation } from "react-router-dom";
 import { handleResetPasswordFirst, handleResetPasswordSecond } from '../../utils/api';
+import { getCookie, deleteCookie, setAccessToken, setRefreshToken } from '../../utils/handleCookie';
 import { checkResponseReact } from '../../utils/handleFetch';
 import { setError } from '../slices/auth';
 import {
@@ -13,26 +13,19 @@ import {
   fetchUpdateUser,
 } from '../slices/auth';
 
-const handleSetAccessToken = (res) => {
-  setCookie('accessToken', res.payload.accessToken, { expires: 60 * 60 * 24 * 7, path: '/' });
-}
-
-const handleSetRefreshToken = (res) => {
-  setCookie('refreshToken', res.payload.refreshToken, { expires: 60 * 60 * 24 * 7, path: '/' });
-}
-
 const useAuth = (values) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const login = () => {
     if (values.email && values.password) {
       dispatch(fetchLogin(values))
         .then(res => {
           if (res.payload.success === true) {
-            handleSetAccessToken(res);
-            handleSetRefreshToken(res);
-            navigate(-1);
+            navigate(location.state.pathname);
+            setAccessToken(res);
+            setRefreshToken(res);
           } else {
             dispatch(setError(res.payload.message || res.payload));
           }
@@ -45,8 +38,8 @@ const useAuth = (values) => {
       dispatch(fetchRegister(values))
         .then(res => {
           if (res.payload.success === true) {
-            handleSetAccessToken(res);
-            handleSetRefreshToken(res);
+            setAccessToken(res);
+            setRefreshToken(res);
           } else {
             dispatch(setError(res.payload.message || res.payload));
           }
@@ -61,8 +54,8 @@ const useAuth = (values) => {
       dispatch(fetchUpdateAccessToken({ token: refreshToken }))
         .then(res => {
           if (res.payload.success === true) {
-            handleSetAccessToken(res);
-            handleSetRefreshToken(res);
+            setAccessToken(res);
+            setRefreshToken(res);
             fn();
           } else {
             deleteCookie('accessToken');

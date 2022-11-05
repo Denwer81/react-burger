@@ -33,8 +33,18 @@ function deleteCookie(name) {
   setCookie(name, null, { expires: -1 });
 }
 
+const setAccessToken = (res) => {
+  setCookie('accessToken', res.payload.accessToken, { expires: 60 * 60 * 24 * 7, path: '/' });
+}
+
+const setRefreshToken = (res) => {
+  setCookie('refreshToken', res.payload.refreshToken, { expires: 60 * 60 * 24 * 7, path: '/' });
+}
+
 export {
   setCookie,
   getCookie,
   deleteCookie,
+  setAccessToken,
+  setRefreshToken,
 }

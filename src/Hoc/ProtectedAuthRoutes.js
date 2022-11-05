@@ -8,7 +8,7 @@ function ProtectedAuthRoutes() {
   const isAuth = useSelector(getIsAuth);
   
   return (
-    isAuth ? <Outlet /> : <Navigate to='/login' state={{ state: location }} />
+    isAuth ? <Outlet /> : <Navigate to='/login' state={location} />
   )
 }
 
