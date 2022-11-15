@@ -21,7 +21,6 @@ const initialState = {
   error: null,
 }
 
-
 export const fetchRegister = createAsyncThunk(
   'auth/fetchRegister',
   async (data, { rejectWithValue }) => {
@@ -70,6 +69,16 @@ export const fetchUpdateUser = createAsyncThunk(
   }
 );
 
+const setLoadinStatusPending = (state, action) => {
+  state.error = null;
+  state.loadingStatus = REQUEST_STATUS.loading;
+}
+
+const setLoadinStatusRejected = (state, action) => {
+  state.error = null;
+  state.loadingStatus = REQUEST_STATUS.loading;
+}
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -80,10 +89,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchRegister.pending, (state, action) => {
-        state.error = null;
-        state.loadingStatus = REQUEST_STATUS.loading;
-      })
+      .addCase(fetchRegister.pending, setLoadinStatusPending)
       .addCase(fetchRegister.fulfilled, (state, action) => {
         state.loadingStatus = REQUEST_STATUS.idle;
         if (action.payload.success) {
@@ -91,13 +97,9 @@ const authSlice = createSlice({
           state.isAuth = true;
         };
       })
-      .addCase(fetchRegister.rejected, (state, action) => {
-        state.loadingStatus = REQUEST_STATUS.error;
-      })
-      .addCase(fetchLogin.pending, (state, action) => {
-        state.error = null;
-        state.loadingStatus = REQUEST_STATUS.loading;
-      })
+      .addCase(fetchRegister.rejected, setLoadinStatusRejected)
+
+      .addCase(fetchLogin.pending, setLoadinStatusPending)
       .addCase(fetchLogin.fulfilled, (state, action) => {
         state.loadingStatus = REQUEST_STATUS.idle;
         if (action.payload.success) {
@@ -105,24 +107,16 @@ const authSlice = createSlice({
           state.isAuth = true;
         };
       })
-      .addCase(fetchLogin.rejected, (state, action) => {
-        state.loadingStatus = REQUEST_STATUS.error;
-      })
-      .addCase(fetchLogout.pending, (state, action) => {
-        state.error = null;
-        state.loadingStatus = REQUEST_STATUS.loading;
-      })
+      .addCase(fetchLogin.rejected, setLoadinStatusRejected)
+
+      .addCase(fetchLogout.pending, setLoadinStatusPending)
       .addCase(fetchLogout.fulfilled, (state, action) => {
         if (action.payload.success === true)
           return initialState;
       })
-      .addCase(fetchLogout.rejected, (state, action) => {
-        state.loadingStatus = REQUEST_STATUS.error;
-      })
-      .addCase(fetchGetUser.pending, (state, action) => {
-        state.error = null;
-        state.loadingStatus = REQUEST_STATUS.loading;
-      })
+      .addCase(fetchLogout.rejected, setLoadinStatusRejected)
+
+      .addCase(fetchGetUser.pending, setLoadinStatusPending)
       .addCase(fetchGetUser.fulfilled, (state, action) => {
         state.loadingStatus = REQUEST_STATUS.idle;
         if (action.payload.success) {
@@ -130,23 +124,15 @@ const authSlice = createSlice({
           state.isAuth = true;
         };
       })
-      .addCase(fetchGetUser.rejected, (state, action) => {
-        state.loadingStatus = REQUEST_STATUS.error;
-      })
-      .addCase(fetchUpdateAccessToken.pending, (state, action) => {
-        state.error = null;
-        state.loadingStatus = REQUEST_STATUS.loading;
-      })
+      .addCase(fetchGetUser.rejected, setLoadinStatusRejected)
+      
+      .addCase(fetchUpdateAccessToken.pending, setLoadinStatusPending)
       .addCase(fetchUpdateAccessToken.fulfilled, (state, action) => {
         state.loadingStatus = REQUEST_STATUS.idle;
       })
-      .addCase(fetchUpdateAccessToken.rejected, (state, action) => {
-        state.loadingStatus = REQUEST_STATUS.error;
-      })
-      .addCase(fetchUpdateUser.pending, (state, action) => {
-        state.error = null;
-        state.loadingStatus = REQUEST_STATUS.loading;
-      })
+      .addCase(fetchUpdateAccessToken.rejected, setLoadinStatusRejected)
+
+      .addCase(fetchUpdateUser.pending, setLoadinStatusPending)
       .addCase(fetchUpdateUser.fulfilled, (state, action) => {
         state.loadingStatus = REQUEST_STATUS.idle;
         if (action.payload.success) {
@@ -154,9 +140,7 @@ const authSlice = createSlice({
           state.isAuth = true;
         };
       })
-      .addCase(fetchUpdateUser.rejected, (state, action) => {
-        state.loadingStatus = REQUEST_STATUS.error;
-      })
+      .addCase(fetchUpdateUser.rejected, setLoadinStatusRejected)
   }
 });
 

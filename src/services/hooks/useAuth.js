@@ -23,7 +23,9 @@ const useAuth = (values) => {
       dispatch(fetchLogin(values))
         .then(res => {
           if (res.payload.success === true) {
-            navigate(location.state.pathname);
+            if (location.state) {
+              navigate(location.state.pathname);
+            }
             setAccessToken(res);
             setRefreshToken(res);
           } else {

@@ -6,6 +6,7 @@ import { getCartIdList, getCartPrice } from '../../services/selectors/selectors'
 import { useLocation, useNavigate } from "react-router-dom";
 import { getIsAuth } from '../../services/selectors/selectors';
 import { getCookie } from '../../utils/handleCookie';
+import useAuth from '../../services/hooks/useAuth';
 
 import styles from './Cart.module.css';
 
@@ -18,6 +19,7 @@ function Cart() {
   const cartPrice = useSelector(getCartPrice);
   const isAuth = useSelector(getIsAuth);
   const accessToken = getCookie('accessToken');
+  const { updateAccessToken } = useAuth();
 
   const handleGetOrder = async () => {
     if (!isAuth) {
@@ -27,6 +29,11 @@ function Cart() {
         setIsDisable(true);
         const cardList = { ingredients: cartIdList };
         const order = await dispatch(fetchCart({ cardList, accessToken }));
+
+        if (order.payload.message === 'jwt expired') {
+          updateAccessToken(handleGetOrder)
+        }
+
         const orderNumber = order.payload.order.number;
 
         setIsDisable(false);
