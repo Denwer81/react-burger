@@ -1,17 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FC } from 'react';
 import { BurgerIcon, ProfileIcon, ListIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink, useLocation } from 'react-router-dom'
 
 import styles from './Header-link.module.css';
+interface IHeaderButton {
+  text: string;
+  icon: string;
+  to: string;
+}
 
-HeaderButton.propTypes = {
-  text: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
-  to: PropTypes.string.isRequired,
-};
-
-function HeaderButton({ text, icon, to }: any) {
+const HeaderButton: FC<IHeaderButton> = ({ text, icon, to }) => {
   let location = useLocation();
 
   const match = () => {

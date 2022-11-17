@@ -21,53 +21,25 @@ const initialState = {
   error: null,
 }
 
-export const fetchRegister = createAsyncThunk(
-  'auth/fetchRegister',
+const fetchingAsyncThunk = (caseName, fn) => createAsyncThunk(
+  caseName,
   async (data, { rejectWithValue }) => {
-    return await handleRegister(data)
+    return await fn(data)
       .then(res => checkResponseRedux(res, rejectWithValue))
   }
 );
 
-export const fetchLogin = createAsyncThunk(
-  'auth/fetchLogin',
-  async (data, { rejectWithValue }) => {
-    return await handleLogin(data)
-      .then(res => checkResponseRedux(res, rejectWithValue))
-  }
-);
+export const fetchRegister = fetchingAsyncThunk('auth/fetchRegister', handleRegister)
 
-export const fetchLogout = createAsyncThunk(
-  'auth/fetchLogout',
-  async (refreshToken, { rejectWithValue }) => {
-    return await handleLogout(refreshToken)
-      .then(res => checkResponseRedux(res, rejectWithValue))
-  }
-);
+export const fetchLogin = fetchingAsyncThunk('auth/fetchLogin', handleLogin)
 
-export const fetchGetUser = createAsyncThunk(
-  'auth/fetchGetUser',
-  async (accessToken, { rejectWithValue }) => {
-    return await handleGetUser(accessToken)
-      .then(res => checkResponseRedux(res, rejectWithValue))
-  }
-);
+export const fetchUpdateUser = fetchingAsyncThunk('auth/fetchUpdateUser', handleUpdatetUser)
 
-export const fetchUpdateAccessToken = createAsyncThunk(
-  'auth/fetchUpdateAccessToken',
-  async (accessToken, { rejectWithValue }) => {
-    return await handleUpdateAccessToken(accessToken)
-      .then(res => checkResponseRedux(res, rejectWithValue))
-  }
-);
+export const fetchLogout = fetchingAsyncThunk('auth/fetchLogout', handleLogout)
 
-export const fetchUpdateUser = createAsyncThunk(
-  'auth/fetchUpdateUser',
-  async ({ accessToken, values }, { rejectWithValue }) => {
-    return await handleUpdatetUser({ accessToken, values })
-      .then(res => checkResponseRedux(res, rejectWithValue))
-  }
-);
+export const fetchGetUser = fetchingAsyncThunk('auth/fetchGetUser', handleGetUser)
+
+export const fetchUpdateAccessToken = fetchingAsyncThunk('auth/fetchUpdateAccessToken', handleUpdateAccessToken)
 
 const setLoadinStatusPending = (state, action) => {
   state.error = null;
@@ -75,8 +47,8 @@ const setLoadinStatusPending = (state, action) => {
 }
 
 const setLoadinStatusRejected = (state, action) => {
-  state.error = null;
-  state.loadingStatus = REQUEST_STATUS.loading;
+  state.error = action.payload.message;
+  state.loadingStatus = REQUEST_STATUS.error;
 }
 
 const authSlice = createSlice({
@@ -90,6 +62,7 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchRegister.pending, setLoadinStatusPending)
+      .addCase(fetchRegister.rejected, setLoadinStatusRejected)
       .addCase(fetchRegister.fulfilled, (state, action) => {
         state.loadingStatus = REQUEST_STATUS.idle;
         if (action.payload.success) {
@@ -97,9 +70,9 @@ const authSlice = createSlice({
           state.isAuth = true;
         };
       })
-      .addCase(fetchRegister.rejected, setLoadinStatusRejected)
 
       .addCase(fetchLogin.pending, setLoadinStatusPending)
+      .addCase(fetchLogin.rejected, setLoadinStatusRejected)
       .addCase(fetchLogin.fulfilled, (state, action) => {
         state.loadingStatus = REQUEST_STATUS.idle;
         if (action.payload.success) {
@@ -107,16 +80,16 @@ const authSlice = createSlice({
           state.isAuth = true;
         };
       })
-      .addCase(fetchLogin.rejected, setLoadinStatusRejected)
 
       .addCase(fetchLogout.pending, setLoadinStatusPending)
+      .addCase(fetchLogout.rejected, setLoadinStatusRejected)
       .addCase(fetchLogout.fulfilled, (state, action) => {
         if (action.payload.success === true)
           return initialState;
       })
-      .addCase(fetchLogout.rejected, setLoadinStatusRejected)
 
       .addCase(fetchGetUser.pending, setLoadinStatusPending)
+      .addCase(fetchGetUser.rejected, setLoadinStatusRejected)
       .addCase(fetchGetUser.fulfilled, (state, action) => {
         state.loadingStatus = REQUEST_STATUS.idle;
         if (action.payload.success) {
@@ -124,15 +97,15 @@ const authSlice = createSlice({
           state.isAuth = true;
         };
       })
-      .addCase(fetchGetUser.rejected, setLoadinStatusRejected)
-      
+
       .addCase(fetchUpdateAccessToken.pending, setLoadinStatusPending)
+      .addCase(fetchUpdateAccessToken.rejected, setLoadinStatusRejected)
       .addCase(fetchUpdateAccessToken.fulfilled, (state, action) => {
         state.loadingStatus = REQUEST_STATUS.idle;
       })
-      .addCase(fetchUpdateAccessToken.rejected, setLoadinStatusRejected)
 
       .addCase(fetchUpdateUser.pending, setLoadinStatusPending)
+      .addCase(fetchUpdateUser.rejected, setLoadinStatusRejected)
       .addCase(fetchUpdateUser.fulfilled, (state, action) => {
         state.loadingStatus = REQUEST_STATUS.idle;
         if (action.payload.success) {
@@ -140,7 +113,6 @@ const authSlice = createSlice({
           state.isAuth = true;
         };
       })
-      .addCase(fetchUpdateUser.rejected, setLoadinStatusRejected)
   }
 });
 
