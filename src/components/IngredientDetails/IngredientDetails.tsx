@@ -17,7 +17,7 @@ const IngredientDetails: FC = () => {
   const { name, image_large, calories, proteins, fat, carbohydrates } = viewedIngredient || {};
 
   useEffect(() => {
-    dispatch(setIngredient(viewedIngredient))
+    dispatch(setIngredient(viewedIngredient!))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

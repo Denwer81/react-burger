@@ -1,11 +1,12 @@
 import { IIngredient } from "./burgerIngredients";
+import { REQUEST_STATUS } from "./types";
 
 export interface IOrderState {
-  orderName: null | string,
-  orderNumber: null | number,
+  orderName: null | string;
+  orderNumber: null | number;
 
-  loadingStatus: 'idle' | 'loading' | 'error',
-  error: null | string,
+  loadingStatus: keyof typeof REQUEST_STATUS;
+  error: null | string;
 }
 
 export interface IOrder {

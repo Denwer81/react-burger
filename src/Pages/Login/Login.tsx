@@ -10,11 +10,14 @@ import styles from './Login.module.css';
 
 const Login = () => {
   const { values, handleChange } = useInputs();
-  const { login } = useAuth(values);
+  const { login } = useAuth();
 
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
     e.preventDefault()
-    login()
+    if (values.email && values.password) {
+      login({ email: values.email, password: values.password })
+    }
+    
   }
 
   return (

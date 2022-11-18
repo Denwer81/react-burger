@@ -8,11 +8,13 @@ import styles from './ForgotPassword.module.css';
 
 const ForgotPassword = () => {
   const { values, handleChange } = useInputs();
-  const { forgotPassword } = useAuth(values);
+  const { forgotPassword } = useAuth();
 
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
     e.preventDefault()
-    forgotPassword();
+    if (values.email) {
+      forgotPassword({ email: values.email })
+    }
   }
 
   return (

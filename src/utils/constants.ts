@@ -4,4 +4,3 @@ export const REQUEST_STATUS = {
   loading: 'loading',
   error: 'error',
 }
-// export const userNameRegex = '^[А-ЯЁа-яёA-Za-z\\s\\-]{2,30}$';

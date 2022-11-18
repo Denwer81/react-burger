@@ -8,11 +8,13 @@ import styles from './Register.module.css';
 
 const Register = () => {
   const { values, handleChange } = useInputs();
-  const { register } = useAuth(values);
+  const { register } = useAuth();
 
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
     e.preventDefault()
-    register()
+    if (values.name && values.email && values.password) {
+      register({ name: values.name, email: values.email, password: values.password })
+    }
   }
 
   return (

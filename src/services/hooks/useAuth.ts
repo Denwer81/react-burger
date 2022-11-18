@@ -1,10 +1,10 @@
-import { useDispatch } from 'react-redux';
-import { useNavigate, useLocation } from "react-router-dom";
-import { handleResetPasswordFirst, handleResetPasswordSecond } from '../../utils/api';
-import { getCookie, deleteCookie, setAccessToken, setRefreshToken } from '../../utils/handleCookie';
-import { checkResponseReact } from '../../utils/handleFetch';
-import { useAppDispatch } from './useRedux';
+import { useState } from 'react';
 import { setError } from '../slices/auth';
+import { useAppDispatch } from './useRedux';
+import { useNavigate, useLocation } from "react-router-dom";
+import { ILoginData, IRegisterData, IForgotPassword, IResetPassword } from './../types/auth';
+import { getCookie, deleteCookie, setAccessToken, setRefreshToken } from '../../utils/handleCookie';
+import { handleFetchForgotPassword, handleFetchResetPassword } from '../api/auth';
 import {
   fetchLogin,
   fetchRegister,
@@ -14,48 +14,45 @@ import {
   fetchUpdateUser,
 } from '../slices/auth';
 
-const useAuth = (values) => {
+function useAuth() {
+  const [sendData, setSendData] = useState<object | null>(null)
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const login = () => {
-    if (values.email && values.password) {
-      dispatch(fetchLogin(values))
-        .then(res => {
-          if (res.payload.success === true) {
-            if (location.state) {
-              navigate(location.state.pathname);
-            }
-            setAccessToken(res.payload.accessToken);
-            setRefreshToken(res.payload.refreshToken);
+  const login = (data: ILoginData) => {
+    dispatch(fetchLogin(data))
+      .then(res => {
+        if (res.payload!.success === true) {
+          if (location.state) {
+            navigate(location.state.pathname);
           }
-        })
-    }
+          setAccessToken(res.payload!.accessToken!);
+          setRefreshToken(res.payload!.refreshToken!);
+        }
+      })
   }
 
-  const register = () => {
-    if (values.name && values.email && values.password) {
-      dispatch(fetchRegister(values))
-        .then(res => {
-          if (res.payload.success === true) {
-            setAccessToken(res.payload.accessToken);
-            setRefreshToken(res.payload.refreshToken);
-          }
-        })
-    }
+  const register = (data: IRegisterData) => {
+    dispatch(fetchRegister(data))
+      .then(res => {
+        if (res.payload!.success === true) {
+          setAccessToken(res.payload!.accessToken!);
+          setRefreshToken(res.payload!.refreshToken!);
+        }
+      })
   }
 
-  const updateAccessToken = (fn: () => void) => {
+  const updateAccessToken = (fn: any) => {
     const refreshToken = getCookie('refreshToken');
 
     if (refreshToken) {
       dispatch(fetchUpdateAccessToken({ token: refreshToken }))
         .then(res => {
-          if (res.payload.success === true) {
-            setAccessToken(res.payload.accessToken);
-            setRefreshToken(res.payload.refreshToken);
-            fn();
+          if (res.payload!.success === true) {
+            setAccessToken(res.payload!.accessToken!);
+            setRefreshToken(res.payload!.refreshToken!);
+            fn(sendData);
           } else {
             deleteCookie('accessToken');
             deleteCookie('refreshToken');
@@ -68,70 +65,54 @@ const useAuth = (values) => {
     const accessToken = getCookie('accessToken');
 
     if (accessToken) {
-      dispatch(fetchGetUser(accessToken))
+      dispatch(fetchGetUser({ token: accessToken }))
         .then(res => {
-          if (res.payload.status === false) {
-            if (res.payload.message === 'jwt expired') {
-              updateAccessToken(getUser)
-            }
+          if (res.payload!.message === 'jwt expired') {
+            updateAccessToken(getUser)
           }
         })
     }
   }
 
-  const updateUser = () => {
+  const updateUser = (data: IRegisterData) => {
     const accessToken = getCookie('accessToken');
+    setSendData(data)
 
-    if (values.name && values.email) {
-      dispatch(fetchUpdateUser({ accessToken, values }))
+    if (data.name && data.email && accessToken) {
+      dispatch(fetchUpdateUser({ accessToken, data }))
         .then(res => {
-          if (res.payload.status === false) {
-            if (res.payload.message === 'jwt expired') {
-              updateAccessToken(updateUser)
-            }
+          if (res.payload!.message === 'jwt expired') {
+            updateAccessToken(updateUser)
           }
-        })
-    }
-  }
-
-  const forgotPassword = () => {
-    if (values.email) {
-      handleResetPasswordFirst(values)
-        .then(res => checkResponseReact(res))
-        .then(res => {
-          if (res.success === true) {
-            navigate('/reset-password', { state: true })
-          } else {
-            dispatch(setError(res.message))
-          }
-        })
-    }
-  }
-
-  const resetPassword = () => {
-    if (values.password && values.token) {
-      handleResetPasswordSecond(values)
-        .then(res => checkResponseReact(res))
-        .then(res => {
-          if (res.success === true) {
-            navigate('/login')
-          }
-          dispatch(setError(res.message))
         })
     }
   }
 
   const logout = () => {
-    const refreshToken = { token: getCookie('refreshToken') };
+    const refreshToken = getCookie('refreshToken');
 
-    dispatch(fetchLogout(refreshToken))
-      .then(res => {
-        if (res.payload.success === true) {
-          deleteCookie('accessToken');
-          deleteCookie('refreshToken');
-          navigate('/login')
-        }
-      })
+    if (refreshToken) {
+      dispatch(fetchLogout({ token: refreshToken }))
+        .then(res => {
+          if (res.payload!.success === true) {
+            deleteCookie('accessToken');
+            deleteCookie('refreshToken');
+            navigate('/login')
+          }
+        })
+    }
+  }
+
+  const forgotPassword = (data: IForgotPassword) => {
+    handleFetchForgotPassword(data)
+      .then(() => navigate('/reset-password', { state: true }))
+      .catch(error => dispatch(setError(error.message)))
+  }
+
+  const resetPassword = (data: IResetPassword) => {
+    handleFetchResetPassword(data)
+      .then(() => navigate('/login'))
+      .catch(error => dispatch(setError(error.message)))
   }
 
   return {

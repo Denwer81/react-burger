@@ -1,9 +1,87 @@
+import { checkResponce } from "./checkResponce";
 import { baseUrlApi } from "../../utils/constants";
-import { IOrderData, IOrderPayload } from "../types/order";
+import { IForgotPassword, IResetPassword } from './../types/auth';
+import { IAuthPayload, ILoginData, IRegisterData, ITokenData, IUpdateUserData } from "../types/auth";
 
-export const handleLogin = async ({ accessToken, cardList }: IOrderData) => {
-  const response = await fetch(baseUrlApi + 'orders', {
+export const handleFetchRegister = async (data: IRegisterData) => {
+  const response = await fetch(baseUrlApi + 'auth/register', {
     method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(data),
+  })
+
+  const checkedResponce = await checkResponce(response)
+
+  return checkedResponce as IAuthPayload;
+}
+
+export const handleFetchLogin = async (data: ILoginData) => {
+  const response = await fetch(baseUrlApi + 'auth/login', {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(data),
+  })
+
+  const checkedResponce = await checkResponce(response)
+
+  return checkedResponce as IAuthPayload;
+}
+
+export const handleFetchLogout = async (data: ITokenData) => {
+  const response = await fetch(baseUrlApi + 'auth/logout', {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(data),
+  })
+
+  const checkedResponce = await checkResponce(response)
+
+  return checkedResponce as IAuthPayload;
+}
+
+export const handleFetchGetUser = async (accessToken: ITokenData) => {
+  const response = await fetch(baseUrlApi + 'auth/user', {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': accessToken.token,
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+  })
+
+  const checkedResponce = await checkResponce(response)
+
+  return checkedResponce as IAuthPayload;
+}
+
+export const handleFetchUpdateUser = async ({ accessToken, data }: IUpdateUserData) => {
+  const response = await fetch(baseUrlApi + 'auth/user', {
+    method: 'PATCH',
     mode: 'cors',
     cache: 'no-cache',
     credentials: 'same-origin',
@@ -13,23 +91,67 @@ export const handleLogin = async ({ accessToken, cardList }: IOrderData) => {
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
-    body: JSON.stringify(cardList),
+    body: JSON.stringify(data),
   })
 
   const checkedResponce = await checkResponce(response)
 
-  return checkedResponce as IOrderPayload;
+  return checkedResponce as IAuthPayload;
 }
 
-const checkResponce = async (response: Response) => {
-  if (!response.ok) {
-    if (response.status === 404) {
-      throw new Error('Server Error!')
-    } else {
-      const error = await response.json()
-      throw new Error(error.message)
-    }
-  }
+export const handleFetchUpdateAccessToken = async (refreshToken: ITokenData) => {
+  const response = await fetch(baseUrlApi + 'auth/token', {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(refreshToken),
+  })
 
-  return await response.json()
+  const checkedResponce = await checkResponce(response)
+
+  return checkedResponce as IAuthPayload;
+}
+
+export const handleFetchForgotPassword = async (data: IForgotPassword) => {
+  const response = await fetch(baseUrlApi + 'password-reset', {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(data),
+  })
+
+  const checkedResponce = await checkResponce(response)
+
+  return checkedResponce as IAuthPayload;
+}
+
+export const handleFetchResetPassword = async (data: IResetPassword) => {
+  const response = await fetch(baseUrlApi + 'password-reset/reset', {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(data),
+  })
+
+  const checkedResponce = await checkResponce(response)
+
+  return checkedResponce as IAuthPayload;
 }

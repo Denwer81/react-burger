@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "../hooks/useRedux";
+import { useAppDispatch } from "./useRedux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getCartIdList, getIsAuth } from "../selectors/selectors";
 import { getCookie } from "../../utils/handleCookie";
 import { fetchOrder } from "../slices/order";
-import useAuth from "../hooks/useAuth";
+import useAuth from "./useAuth";
 
 const useOrder = () => {
   const [isDisableButton, setIsDisableButton] = useState(false);

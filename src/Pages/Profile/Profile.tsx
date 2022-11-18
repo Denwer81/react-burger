@@ -12,11 +12,13 @@ const Profile = () => {
   const user = useSelector(getUser);
   const [disabled, setDisabled] = useState(true);
   const { values, handleChange, resetForm } = useInputs(user);
-  const { updateUser } = useAuth(values)
+  const { updateUser } = useAuth()
 
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
     e.preventDefault()
-    updateUser();
+    if (values.name || values.email || values.password) {
+      updateUser({ name: values.name!, email: values.email!, password: values.password! })
+    }
   }
 
   const handleClickIcon = () => {

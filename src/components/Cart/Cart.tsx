@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getCartPrice } from '../../services/selectors/selectors';
-import useOrder from '../../services/api/useOrder';
+import useOrder from '../../services/hooks/useOrder';
 
 import styles from './Cart.module.css';
 

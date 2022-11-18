@@ -10,7 +10,7 @@ const ResetPassword = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { values, handleChange } = useInputs();
-  const { resetPassword } = useAuth(values);
+  const { resetPassword } = useAuth();
 
   useEffect(() => {
     if (!location.state) {
@@ -20,7 +20,10 @@ const ResetPassword = () => {
 
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
     e.preventDefault()
-    resetPassword();
+    if (values.token && values.password) {
+      resetPassword({ token: values.token, password: values.password })
+    }
+
   }
 
   return (

@@ -1,3 +1,5 @@
+import { REQUEST_STATUS } from "./types";
+
 export interface IIngredient {
   _id: string;
   type: string;
@@ -18,7 +20,7 @@ export interface IIngredientsState {
   main: Array<IIngredient>;
   sauce: Array<IIngredient>;
 
-  loadingStatus: 'idle' | 'loading' | 'error',
+  loadingStatus: keyof typeof REQUEST_STATUS,
   error: null | string,
 }
 
