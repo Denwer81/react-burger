@@ -1,13 +1,13 @@
-function setCookie(name: string, value?: string | null, props?: any) {
-  props = props || {};
-  let exp = props.expires;
+function setCookie(name: string, value?: string | null, props?: { [key: string]: any, path?: string }) {
+  // props = props || {};
+  let exp = props!.expires;
   if (typeof exp == 'number' && exp) {
     const d = new Date();
     d.setTime(d.getTime() + exp * 1000);
-    exp = props.expires = d;
+    exp = props!.expires = d;
   }
   if (exp && exp.toUTCString) {
-    props.expires = exp.toUTCString();
+    props!.expires = exp.toUTCString();
   }
   value = encodeURIComponent(value!);
   let updatedCookie = name + '=' + value;
@@ -24,7 +24,7 @@ function setCookie(name: string, value?: string | null, props?: any) {
 function getCookie(name: string) {
   const matches = document.cookie.match(
     /* eslint-disable no-useless-escape */
-    new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)') 
+    new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
