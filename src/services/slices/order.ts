@@ -17,8 +17,8 @@ export const fetchOrder = createAsyncThunk<IOrderPayload, IOrderData, { rejectVa
     try {
       return await handleFetchOrder({ cardList, accessToken })
 
-    } catch (error: any) {
-      return rejectWithValue({ success: false, message: error.message })
+    } catch (error) {
+      return rejectWithValue({ success: false, message: (error as Error).message })
     }
   }
 );

@@ -34,8 +34,8 @@ export const fetchRegister = createAsyncThunk<IAuthPayload, IRegisterData, { rej
     try {
       return await handleFetchRegister(data)
 
-    } catch (error: any) {
-      return rejectWithValue({ success: false, message: error.message })
+    } catch (error) {
+      return rejectWithValue({ success: false, message: (error as Error).message })
     }
   }
 );
@@ -46,8 +46,8 @@ export const fetchLogin = createAsyncThunk<IAuthPayload, ILoginData, { rejectVal
     try {
       return await handleFetchLogin(data)
 
-    } catch (error: any) {
-      return rejectWithValue({ success: false, message: error.message })
+    } catch (error) {
+      return rejectWithValue({ success: false, message: (error as Error).message })
     }
   }
 );
@@ -58,8 +58,8 @@ export const fetchLogout = createAsyncThunk<IAuthPayload, ITokenData, { rejectVa
     try {
       return await handleFetchLogout(refreshToken)
 
-    } catch (error: any) {
-      return rejectWithValue({ success: false, message: error.message })
+    } catch (error) {
+      return rejectWithValue({ success: false, message: (error as Error).message })
     }
   }
 );
@@ -70,8 +70,8 @@ export const fetchGetUser = createAsyncThunk<IAuthPayload, ITokenData, { rejectV
     try {
       return await handleFetchGetUser(accessToken)
 
-    } catch (error: any) {
-      return rejectWithValue({ success: false, message: error.message })
+    } catch (error) {
+      return rejectWithValue({ success: false, message: (error as Error).message })
     }
   }
 );
@@ -82,8 +82,8 @@ export const fetchUpdateUser = createAsyncThunk<IAuthPayload, IUpdateUserData, {
     try {
       return await handleFetchUpdateUser({ accessToken, data })
 
-    } catch (error: any) {
-      return rejectWithValue({ success: false, message: error.message })
+    } catch (error) {
+      return rejectWithValue({ success: false, message: (error as Error).message })
     }
   }
 );
@@ -94,8 +94,8 @@ export const fetchUpdateAccessToken = createAsyncThunk<IAuthPayload, ITokenData,
     try {
       return await handleFetchUpdateAccessToken(refreshToken)
 
-    } catch (error: any) {
-      return rejectWithValue({ success: false, message: error.message })
+    } catch (error) {
+      return rejectWithValue({ success: false, message: (error as Error).message })
     }
   }
 );

@@ -1,4 +1,4 @@
-function setCookie(name: string, value?: any, props?: any) {
+function setCookie(name: string, value?: string | null, props?: any) {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {
@@ -9,7 +9,7 @@ function setCookie(name: string, value?: any, props?: any) {
   if (exp && exp.toUTCString) {
     props.expires = exp.toUTCString();
   }
-  value = encodeURIComponent(value);
+  value = encodeURIComponent(value!);
   let updatedCookie = name + '=' + value;
   for (const propName in props) {
     updatedCookie += '; ' + propName;

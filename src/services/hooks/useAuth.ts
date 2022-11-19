@@ -15,7 +15,7 @@ import {
 } from '../slices/auth';
 
 function useAuth() {
-  const [sendData, setSendData] = useState<object | null>(null)
+  const [sendData, setSendData] = useState<IRegisterData | null>(null)
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -43,7 +43,7 @@ function useAuth() {
       })
   }
 
-  const updateAccessToken = (fn: any) => {
+  const updateAccessToken = (fn: (data: IRegisterData) => void) => {
     const refreshToken = getCookie('refreshToken');
 
     if (refreshToken) {
@@ -52,7 +52,7 @@ function useAuth() {
           if (res.payload!.success === true) {
             setAccessToken(res.payload!.accessToken!);
             setRefreshToken(res.payload!.refreshToken!);
-            fn(sendData);
+            fn(sendData!);
           } else {
             deleteCookie('accessToken');
             deleteCookie('refreshToken');

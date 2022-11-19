@@ -1,24 +1,31 @@
-function debounce(func: any, wait?: number, immediate?: string) {
-  let timeout: any;
+function debounce<T extends (...args: any[]) => void>(
+  callback: T,
+  wait?: number,
+  immediate = false,
+)  {
+  let timeout: ReturnType<typeof setTimeout> | null;
 
-  return function executedFunction(this: any) {
+  return function <U>(this: U, ...args: Parameters<typeof callback>) {
     const context = this;
-    const args = arguments;
-
-    const later = function() {
+    const later = () => {
       timeout = null;
 
-      if (!immediate) func.apply(context, args);
+      if (!immediate) {
+        callback.apply(context, args);
+      }
     };
-
     const callNow = immediate && !timeout;
 
-    clearTimeout(timeout);
+    if (typeof timeout === "number") {
+      clearTimeout(timeout);
+    }
 
     timeout = setTimeout(later, wait);
 
-    if (callNow) func.apply(context, args);
+    if (callNow) {
+      callback.apply(context, args);
+    }
   };
-};
+}
 
 export default debounce;

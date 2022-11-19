@@ -20,8 +20,8 @@ export const fetchBurgersDB = createAsyncThunk<IIngredientsPayload, undefined, {
     try {
       return await handleFetchBurgersDB()
 
-    } catch (error: any) {
-      return rejectWithValue({ success: false, message: error.message })
+    } catch (error) {
+      return rejectWithValue({ success: false, message: (error as Error).message })
     }
   }
 );
