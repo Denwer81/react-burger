@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { FC, ReactNode } from 'react';
+
 import styles from './Wrapper.module.css';
 
-function Wrapper(props: any) {
+type TProps = {
+  children: ReactNode;
+};
+
+const Wrapper: FC<TProps> = (props) => {
   return (
     <div className={styles.wrapper}>{props.children}</div>
   )
