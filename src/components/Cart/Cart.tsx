@@ -8,7 +8,8 @@ import styles from './Cart.module.css';
 
 const Cart: FC = () => {
   const cartPrice = useSelector(getCartPrice);
-  const {handleGetOrder, isDisableButton } = useOrder();
+  const { handleGetOrder, isDisableButton } = useOrder();
+  
 
   return (
     <div className={`${styles.container} mt-10`}>

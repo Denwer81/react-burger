@@ -36,7 +36,7 @@ const useOrder = () => {
               const orderNumber = respose.payload.order!.number;
 
               if (orderNumber) {
-                navigate(`/profile/orders/${orderNumber}`,
+                navigate(`/orders/${orderNumber}`,
                   { state: { background: location } })
               }
             }

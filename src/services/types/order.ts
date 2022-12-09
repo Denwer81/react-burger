@@ -2,8 +2,8 @@ import { IIngredient } from "./burgerIngredients";
 import { REQUEST_STATUS } from "./types";
 
 export interface IOrderState {
-  orderName: null | string;
-  orderNumber: null | number;
+  orderName: undefined | string;
+  orderNumber: undefined | number;
 
   loadingStatus: keyof typeof REQUEST_STATUS;
   error: null | string;
@@ -29,6 +29,17 @@ export interface IOrderPayload {
   message: string;
   order?: IOrder;
   name?: string;
+}
+
+export interface IGetOrderPayload {
+  success: boolean;
+  message: string;
+  orders?: [
+    {
+      name: string;
+      number: number;
+    }
+  ]
 }
 
 export interface IOrderData {

@@ -21,6 +21,10 @@ export const getIsAuth = (state: RootState) => state.auth.isAuth
 export const getUser = (state: RootState) => state.auth.user
 export const getAuthError = (state: RootState) => state.auth.error
 
+export const getFeedOrders = (state: RootState) => state.feed.orders
+export const getFeedTotal = (state: RootState) => state.feed.total
+export const getFeedTotalToday = (state: RootState) => state.feed.totalToday
+
 export const getCounters = createSelector(getCartIngredients, getCartBun,
   (getCartIngredients, getCartBun) => {
     const counters: { [name: string]: number } = {};

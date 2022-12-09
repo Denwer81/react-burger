@@ -6,7 +6,7 @@ import { getIsAuth } from '../services/selectors/selectors'
 const ProtectedAuthRoutes = () => {
   const location = useLocation();
   const isAuth = useSelector(getIsAuth);
-  
+
   return (
     isAuth ? <Outlet /> : <Navigate to='/login' state={location} />
   )

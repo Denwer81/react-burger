@@ -28,6 +28,7 @@ import ErorrModal from '../ErrorModal/ErorrModal';
 import Modal from '../Ui/Modals/Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import OrderDetails from '../OrderDetails/OrderDetails';
+import OrderInfo from '../OrderInfo/OrderInfo';
 
 import styles from './App.module.css';
 
@@ -54,6 +55,10 @@ function App() {
   const location = useLocation();
   const background = location.state && location.state.background;
 
+  const closeModal = () => {
+    navigate(-1);
+  }
+
   const closeIngredientsModal = () => {
     clearData(clearIngredient)
     navigate(-1);
@@ -65,15 +70,17 @@ function App() {
     navigate(-1);
   };
 
-
   return (
     <>
       <div className={styles.app}>
         <AppHeader />
         <Routes location={background || location}>
           <Route path='/' element={<MainPage />} />
+          <Route path='feed' element={<Feed />} />
+          <Route path='/feed/:id' element={<OrderInfo />} />
           <Route path='/ingredients/:ingredientId' element={<IngredientDetails />} />
-          {/* <Route path='//profile/orders/:orderNumber' element={<OrderDetails />} /> */}
+          <Route path='/orders/:orderNumber' element={<OrderDetails />} />
+          <Route path='/profile/orders/:id' element={<OrderInfo />} />
 
           <Route element={<ProtectedFromAuthRoutes />} >
             <Route path='login' element={<Login />} />
@@ -85,7 +92,6 @@ function App() {
           <Route element={<ProtectedAuthRoutes />} >
             <Route path='profile' element={<Profile />} />
             <Route path='profile/orders' element={<Orders />} />
-            <Route path='feed' element={<Feed />} />
           </Route>
 
           <Route path='*' element={<NotFound404 />} />
@@ -99,11 +105,23 @@ function App() {
                 <IngredientDetails />
               </Modal>
             } />
+            <Route path="/feed/:id" element={
+              <Modal
+                handleClose={closeModal}>
+                <OrderInfo />
+              </Modal>
+            } />
+            <Route path='/orders/:orderNumber' element={
+              <Modal
+                handleClose={closeOrderModal}>
+                <OrderDetails />
+              </Modal>
+            } />
             <Route element={<ProtectedAuthRoutes />} >
-              <Route path='/profile/orders/:orderNumber' element={
+              <Route path='/profile/orders/:id' element={
                 <Modal
-                  handleClose={closeOrderModal}>
-                  <OrderDetails />
+                  handleClose={closeModal}>
+                  <OrderInfo />
                 </Modal>
               } />
             </Route>

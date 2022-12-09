@@ -3,7 +3,7 @@ function debounce<T extends (...args: any[]) => void>(
   wait?: number,
   immediate = false,
 )  {
-  let timeout: ReturnType<typeof setTimeout> | null;
+  let timeout: NodeJS.Timeout | null;
 
   return function <U>(this: U, ...args: Parameters<typeof callback>) {
     const context = this;
