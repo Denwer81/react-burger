@@ -7,8 +7,10 @@ const ProtectedFromAuthRoutes = () => {
   const location = useLocation();
   const isAuth = useSelector(getIsAuth);
 
+  const navigateTo = location.state.pathname ? location.state.pathname : '/'
+
   return (
-    !isAuth ? <Outlet /> : <Navigate to='/' state={location} />
+    !isAuth ? <Outlet /> : <Navigate to={navigateTo} state={location} />
   )
 }
 

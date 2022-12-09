@@ -80,7 +80,6 @@ function App() {
           <Route path='/feed/:id' element={<OrderInfo />} />
           <Route path='/ingredients/:ingredientId' element={<IngredientDetails />} />
           <Route path='/orders/:orderNumber' element={<OrderDetails />} />
-          <Route path='/profile/orders/:id' element={<OrderInfo />} />
 
           <Route element={<ProtectedFromAuthRoutes />} >
             <Route path='login' element={<Login />} />
@@ -92,6 +91,7 @@ function App() {
           <Route element={<ProtectedAuthRoutes />} >
             <Route path='profile' element={<Profile />} />
             <Route path='profile/orders' element={<Orders />} />
+            <Route path='/profile/orders/:id' element={<OrderInfo />} />
           </Route>
 
           <Route path='*' element={<NotFound404 />} />

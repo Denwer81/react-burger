@@ -25,9 +25,10 @@ const OrderInfo: FC = () => {
     var { price, ingredientMap, sortedIngredients } = sortOrder(order, allIngredients)
   }
 
+
   useEffect(() => {
     getUser();
-    if (!location.state) {
+    if (!location.state || location.state?.pathname === '/login') {
       dispatch(wsConnect('/all'));
       return () => {
         dispatch(wsConnetionClosed());
