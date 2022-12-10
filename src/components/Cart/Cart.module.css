@@ -1,4 +1,11 @@
 .container {
+  position: relative;
   display: flex;
   align-items: center;
+}
+
+.spiner {
+  position: absolute;
+  top: -400px;
+  left: 30px;
 }

@@ -1,11 +1,12 @@
+import { IGetOrderPayload } from './../types/order';
+import { handleFetchOrder, handleFetchGetOrder } from './../api/order';
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { IOrderState, IOrderPayload, IOrderData } from '../types/order';
 import { REQUEST_STATUS } from "../types/types";
-import { handleFetchOrder } from "../api/order";
 
 const initialState: IOrderState = {
-  orderName: null,
-  orderNumber: null,
+  orderName: undefined,
+  orderNumber: undefined,
 
   loadingStatus: 'idle',
   error: null,
@@ -16,6 +17,18 @@ export const fetchOrder = createAsyncThunk<IOrderPayload, IOrderData, { rejectVa
   async ({ cardList, accessToken }, { rejectWithValue }) => {
     try {
       return await handleFetchOrder({ cardList, accessToken })
+
+    } catch (error) {
+      return rejectWithValue({ success: false, message: (error as Error).message })
+    }
+  }
+);
+
+export const fetchGetOrder = createAsyncThunk<IGetOrderPayload, number, { rejectValue: IGetOrderPayload }>(
+  'order/getOrder',
+  async (number, { rejectWithValue }) => {
+    try {
+      return await handleFetchGetOrder(number)
 
     } catch (error) {
       return rejectWithValue({ success: false, message: (error as Error).message })
@@ -45,6 +58,23 @@ const orderSlice = createSlice({
         }
       })
       .addCase(fetchOrder.rejected, (state, action) => {
+        state.loadingStatus = REQUEST_STATUS.error;
+          state.error = action.payload!.message;
+      })
+    
+      .addCase(fetchGetOrder.pending, (state, action) => {
+        state.error = null;
+        state.loadingStatus = REQUEST_STATUS.loading;
+      })
+      .addCase(fetchGetOrder.fulfilled, (state, action) => {
+        state.loadingStatus = REQUEST_STATUS.idle;
+        if (action.payload.success) {
+          console.log(action.payload)
+          state.orderName = action.payload.orders?.[0].name
+          state.orderNumber = action.payload.orders?.[0].number
+        }
+      })
+      .addCase(fetchGetOrder.rejected, (state, action) => {
         state.loadingStatus = REQUEST_STATUS.error;
           state.error = action.payload!.message;
       })

@@ -1,10 +1,10 @@
 import React, { forwardRef } from 'react';
-import { useSelector } from 'react-redux';
 import IngredientsCard from '../IngredientsCard/IngredientsCard';
 import SomethingWrong from '../Ui/SomethingWrong/SomethingWrong';
 import Spinner from '../Ui/Spinner/Spinner';
 import { getIngredientsLoadingStatus } from '../../services/selectors/selectors';
 import { IIngredient } from '../../services/types/burgerIngredients';
+import { useAppSelector } from '../../services/hooks/useRedux';
 
 import styles from './BurgerIngredientsCategory.module.css';
 
@@ -15,7 +15,7 @@ interface IBurgerIngredientsCategory {
 
 const BurgerIngredientsCategory =
   forwardRef<HTMLDivElement, IBurgerIngredientsCategory>(({ title, cards }, ref) => {
-  const ingredientsLoadingStatus = useSelector(getIngredientsLoadingStatus)
+  const ingredientsLoadingStatus = useAppSelector(getIngredientsLoadingStatus)
 
   return (
     <div ref={ref}>

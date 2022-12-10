@@ -1,0 +1,41 @@
+.container {
+  width: 100%;
+  max-height: 64px;
+  display: flex;
+  box-sizing: border-box;
+}
+
+.imageContainer {
+  max-width: 64px;
+  max-height: 64px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: 
+    linear-gradient(rgb(0, 0, 0) 0 0) padding-box,
+    linear-gradient(to right , #801ab3, #4C4CFF) border-box;
+  padding: 4px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.image {
+  width: 52px;
+  height: 52px;
+  display: block;
+  object-fit: cover;
+}
+
+.title {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 320px;
+  overflow: hidden;
+  align-items: center;
+}
+
+.price {
+  height: 64px;
+  display: flex;
+  margin: 0 20px 0 auto;
+  align-items: center;
+}

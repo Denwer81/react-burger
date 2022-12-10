@@ -21,3 +21,21 @@ export const handleFetchOrder = async ({ accessToken, cardList }: IOrderData) =>
 
   return checkedResponce as IOrderPayload;
 }
+
+export const handleFetchGetOrder = async (number: number) => {
+  const response = await fetch(`${baseUrlApi}orders/${number}`, {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+  })
+
+  const checkedResponce = await checkResponce(response)
+
+  return checkedResponce as IOrderPayload;
+}

@@ -1,6 +1,7 @@
 .main {
-  margin-top: 180px;
+  max-width: 1280px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin: 0 auto;
+  justify-content: space-between;
+  padding: 0 20px;
 }

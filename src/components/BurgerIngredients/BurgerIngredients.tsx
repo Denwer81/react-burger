@@ -4,18 +4,18 @@ import BurgerIngredientsCategory from '../BurgerIngredientsCategory/BurgerIngred
 import Wrapper from '../Ui/Wrapper/Wrapper';
 import useScrollTab from '../../services/hooks/useScrollTab';
 import { getIngredientsBun, getIngredientsMain, getIngredientsSauce } from '../../services/selectors/selectors';
+import { useAppSelector } from '../../services/hooks/useRedux';
 
 import styles from './BurgerIngredients.module.css';
-import { useSelector } from 'react-redux';
 
 function BurgerIngredients() {
   const containerRef = useRef<HTMLDivElement>(null);
   const bunRef = useRef<HTMLDivElement>(null);
   const sauceRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLDivElement>(null);
-  const ingredientsBun = useSelector(getIngredientsBun);
-  const ingredientsmain = useSelector(getIngredientsMain);
-  const ingredientsSauce = useSelector(getIngredientsSauce);
+  const ingredientsBun = useAppSelector(getIngredientsBun);
+  const ingredientsmain = useAppSelector(getIngredientsMain);
+  const ingredientsSauce = useAppSelector(getIngredientsSauce);
   const { scrollToTab, currentTab, debounceSetCurrentTab } = useScrollTab({
     containerRef,
     bunRef,

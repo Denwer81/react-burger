@@ -1,7 +1,7 @@
+import { useAppSelector, useAppDispatch } from './useRedux';
 import { IIngredient } from './../types/burgerIngredients';
 import { useCallback, useMemo } from 'react';
 import { useDrop, useDrag } from "react-dnd";
-import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
 import { getCartIngredients } from '../selectors/selectors';
 import debounce from '../../utils/debounce';
@@ -12,8 +12,8 @@ import {
 } from '../slices/burgerConstructor';
 
 const useDropBurgerConstructor = () => {
-  const dispatch = useDispatch();
-  const cartIngredients = useSelector(getCartIngredients);
+  const dispatch = useAppDispatch();
+  const cartIngredients = useAppSelector(getCartIngredients);
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: 'ingredient',

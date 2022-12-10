@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function useModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -6,20 +6,6 @@ function useModal() {
   const handleOpen = () => setIsOpen(true);
 
   const handleClose = () => setIsOpen(false);
-
-  useEffect(() => {
-    const handleEscapeKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setIsOpen(false);
-      }
-    }
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscapeKey);
-      return () => {
-        document.removeEventListener('keydown', handleEscapeKey);
-      }
-    }
-  }, [isOpen, setIsOpen]);
 
   const handleOpenErrorModal = () => {
     handleOpen();

@@ -17,4 +17,6 @@
   position: absolute;
   top: calc(50% - 48px/2);
   left: calc(50% - 280px/2);
+  cursor: pointer;
+  z-index: 10;
 }

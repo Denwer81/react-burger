@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Route, Routes } from "react-router-dom";
 import { fetchBurgersDB } from '../../services/slices/burgerIngredients';
-import { useSelector } from 'react-redux';
 import { getAuthError } from '../../services/selectors/selectors';
 import { useNavigate, useLocation } from "react-router-dom";
 import useAuth from '../../services/hooks/useAuth'
@@ -10,7 +9,7 @@ import useClearData from '../../services/hooks/useClearData';
 import { clearIngredient } from '../../services/slices/viewedIngredient';
 import { clearOrder } from '../../services/slices/order';
 import { clearCart } from '../../services/slices/burgerConstructor';
-import { useAppDispatch } from '../../services/hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '../../services/hooks/useRedux';
 
 import AppHeader from '../AppHeader/AppHeader';
 import MainPage from '../../Pages/MainPage/MainPage';
@@ -28,6 +27,7 @@ import ErorrModal from '../ErrorModal/ErorrModal';
 import Modal from '../Ui/Modals/Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import OrderDetails from '../OrderDetails/OrderDetails';
+import OrderInfo from '../OrderInfo/OrderInfo';
 
 import styles from './App.module.css';
 
@@ -37,7 +37,7 @@ function App() {
   const { getUser } = useAuth();
   const { clearData } = useClearData();
 
-  const authError = useSelector(getAuthError);
+  const authError = useAppSelector(getAuthError);
   const { isOpen, handleClose, handleOpenErrorModal } = useModal();
 
   useEffect(() => {
@@ -54,6 +54,10 @@ function App() {
   const location = useLocation();
   const background = location.state && location.state.background;
 
+  const closeModal = () => {
+    navigate(-1);
+  }
+
   const closeIngredientsModal = () => {
     clearData(clearIngredient)
     navigate(-1);
@@ -65,15 +69,16 @@ function App() {
     navigate(-1);
   };
 
-
   return (
     <>
       <div className={styles.app}>
         <AppHeader />
         <Routes location={background || location}>
           <Route path='/' element={<MainPage />} />
+          <Route path='feed' element={<Feed />} />
+          <Route path='/feed/:id' element={<OrderInfo />} />
           <Route path='/ingredients/:ingredientId' element={<IngredientDetails />} />
-          {/* <Route path='//profile/orders/:orderNumber' element={<OrderDetails />} /> */}
+          <Route path='/orders/:orderNumber' element={<OrderDetails />} />
 
           <Route element={<ProtectedFromAuthRoutes />} >
             <Route path='login' element={<Login />} />
@@ -85,7 +90,7 @@ function App() {
           <Route element={<ProtectedAuthRoutes />} >
             <Route path='profile' element={<Profile />} />
             <Route path='profile/orders' element={<Orders />} />
-            <Route path='feed' element={<Feed />} />
+            <Route path='/profile/orders/:id' element={<OrderInfo />} />
           </Route>
 
           <Route path='*' element={<NotFound404 />} />
@@ -99,11 +104,23 @@ function App() {
                 <IngredientDetails />
               </Modal>
             } />
+            <Route path="/feed/:id" element={
+              <Modal
+                handleClose={closeModal}>
+                <OrderInfo />
+              </Modal>
+            } />
+            <Route path='/orders/:orderNumber' element={
+              <Modal
+                handleClose={closeOrderModal}>
+                <OrderDetails />
+              </Modal>
+            } />
             <Route element={<ProtectedAuthRoutes />} >
-              <Route path='/profile/orders/:orderNumber' element={
+              <Route path='/profile/orders/:id' element={
                 <Modal
-                  handleClose={closeOrderModal}>
-                  <OrderDetails />
+                  handleClose={closeModal}>
+                  <OrderInfo />
                 </Modal>
               } />
             </Route>

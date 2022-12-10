@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { useAppDispatch } from "./useRedux";
+import { useAppDispatch, useAppSelector } from "./useRedux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getCartIdList, getIsAuth } from "../selectors/selectors";
 import { getCookie } from "../../utils/handleCookie";
@@ -12,8 +11,8 @@ const useOrder = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const cartIdList = useSelector(getCartIdList);
-  const isAuth = useSelector(getIsAuth);
+  const cartIdList = useAppSelector(getCartIdList);
+  const isAuth = useAppSelector(getIsAuth);
   const { updateAccessToken } = useAuth();
 
   const handleGetOrder = async () => {
@@ -36,7 +35,7 @@ const useOrder = () => {
               const orderNumber = respose.payload.order!.number;
 
               if (orderNumber) {
-                navigate(`/profile/orders/${orderNumber}`,
+                navigate(`/orders/${orderNumber}`,
                   { state: { background: location } })
               }
             }

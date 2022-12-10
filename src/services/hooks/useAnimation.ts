@@ -13,11 +13,11 @@ export function useAnimation({ modalRef, classList, isOpen, timeout = 200 }: IUs
   useEffect(() => {
     if (isOpen && !mounted) {
       setTimeout(() => {
-        modalRef.current!.classList.add(classList)
+        modalRef.current?.classList.add(classList)
       }, 10)
       setMounted(true);
     } else if (!isOpen && mounted) {
-      modalRef.current!.classList.remove(classList)
+      modalRef.current?.classList.remove(classList)
       setTimeout(() => {
         setMounted(false)
       }, timeout)

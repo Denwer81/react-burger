@@ -5,6 +5,7 @@ export interface IIngredient {
   type: string;
   name: string;
   image: string;
+  image_mobile: string;
   image_large: string;
   price: number;
   calories: number;
