@@ -1,5 +1,4 @@
 import { TFeedPayload } from './../types/feed';
-import { baseUrlWss } from './../../utils/constants';
 import { Middleware, MiddlewareAPI } from 'redux';
 import { AppDispatch, RootState } from './../slices/index';
 import { ActionCreatorWithoutPayload, ActionCreatorWithPayload } from '@reduxjs/toolkit';
@@ -14,7 +13,7 @@ export type TwsAction = {
   wsMessage: ActionCreatorWithPayload<TFeedPayload>,
 }
 
-export const createSocketMiddleware = (wsActions: TwsAction): Middleware => {
+export const createSocketMiddleware = (wssUrl: string, wsActions: TwsAction): Middleware => {
   return (store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;
     let url = '';
@@ -32,7 +31,7 @@ export const createSocketMiddleware = (wsActions: TwsAction): Middleware => {
       } = wsActions;
 
       if (wsConnect.match(action)) {
-        url = baseUrlWss + action.payload;
+        url = wssUrl + action.payload;
         socket = new WebSocket(url);
         dispatch(wsConnecting())
       }

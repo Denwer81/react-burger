@@ -7,6 +7,7 @@ import order from './order'
 import auth from './auth'
 import feed from './feed'
 import { wsActions } from './feed';
+import { baseUrlWss as wssUrl } from '../../utils/constants';
 
 const store = configureStore({
     reducer: {
@@ -18,7 +19,7 @@ const store = configureStore({
         feed,
     },
     middleware: (getDefaultMiddleware) => {
-        return getDefaultMiddleware().concat(createSocketMiddleware(wsActions))
+        return getDefaultMiddleware().concat(createSocketMiddleware(wssUrl, wsActions))
     },
     devTools: process.env.NODE_ENV !== 'production',
 })
