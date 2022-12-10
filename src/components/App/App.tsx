@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Route, Routes } from "react-router-dom";
 import { fetchBurgersDB } from '../../services/slices/burgerIngredients';
-import { useSelector } from 'react-redux';
 import { getAuthError } from '../../services/selectors/selectors';
 import { useNavigate, useLocation } from "react-router-dom";
 import useAuth from '../../services/hooks/useAuth'
@@ -10,7 +9,7 @@ import useClearData from '../../services/hooks/useClearData';
 import { clearIngredient } from '../../services/slices/viewedIngredient';
 import { clearOrder } from '../../services/slices/order';
 import { clearCart } from '../../services/slices/burgerConstructor';
-import { useAppDispatch } from '../../services/hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '../../services/hooks/useRedux';
 
 import AppHeader from '../AppHeader/AppHeader';
 import MainPage from '../../Pages/MainPage/MainPage';
@@ -38,7 +37,7 @@ function App() {
   const { getUser } = useAuth();
   const { clearData } = useClearData();
 
-  const authError = useSelector(getAuthError);
+  const authError = useAppSelector(getAuthError);
   const { isOpen, handleClose, handleOpenErrorModal } = useModal();
 
   useEffect(() => {

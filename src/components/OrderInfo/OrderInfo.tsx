@@ -37,10 +37,11 @@ const OrderInfo: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
   return (
     <main className={`${styles.main} pl-5 pr-5`}>
-      <div className={`${styles.container} ${!location.state && styles.page}`}>
+      <div
+        className={`${styles.container} 
+        ${(!location.state || location.state.pathname !== 'login') && styles.page}`}>
         <p className="text text_type_digits-default">#{order?.number}</p>
         <h2 className={`${styles.name} text text_type_main-medium mt-10 mb-3`}>
           {order?.name}

@@ -14,7 +14,7 @@ export type TwsAction = {
   wsMessage: ActionCreatorWithPayload<TFeedPayload>,
 }
 
-export const CreateSocketMiddleware = (wsActions: TwsAction): Middleware => {
+export const createSocketMiddleware = (wsActions: TwsAction): Middleware => {
   return (store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;
     let url = '';

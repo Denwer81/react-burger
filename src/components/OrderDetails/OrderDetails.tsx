@@ -1,21 +1,20 @@
 import React, { useEffect } from 'react';
 import Spinner from '../Ui/Spinner/Spinner';
-import { useSelector } from 'react-redux';
 import SomethingWrong from '../Ui/SomethingWrong/SomethingWrong';
 import { getOrderNumber, getOrderLoadingStatus, getOrderError } from '../../services/selectors/selectors';
 import { useLocation, useParams } from 'react-router-dom';
+import { fetchGetOrder } from '../../services/slices/order';
+import { useAppDispatch, useAppSelector } from '../../services/hooks/useRedux';
 
 import done from '../../image/done.png';
 import styles from './OrderDetails.module.css';
-import { useAppDispatch } from '../../services/hooks/useRedux';
-import { fetchGetOrder } from '../../services/slices/order';
 
 const OrderDetails = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const orderNumber = useSelector(getOrderNumber);
-  const orderError = useSelector(getOrderError);
-  const orderLoadingStatus = useSelector(getOrderLoadingStatus);
+  const orderNumber = useAppSelector(getOrderNumber);
+  const orderError = useAppSelector(getOrderError);
+  const orderLoadingStatus = useAppSelector(getOrderLoadingStatus);
   const { orderNumber: number } = useParams();
 
   useEffect(() => {

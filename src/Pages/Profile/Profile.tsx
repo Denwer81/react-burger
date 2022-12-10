@@ -1,15 +1,15 @@
 import React, { SyntheticEvent, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useInputs } from '../../services/hooks/useInputs';
 import { getUser } from '../../services/selectors/selectors';
 import ProfileNav from '../../components/ProfileNav/ProfileNav';
 import useAuth from '../../services/hooks/useAuth';
+import { useAppSelector } from '../../services/hooks/useRedux';
 
 import styles from './Profile.module.css';
 
 const Profile = () => {
-  const user = useSelector(getUser);
+  const user = useAppSelector(getUser);
   const [disabled, setDisabled] = useState(true);
   const { values, handleChange, resetForm } = useInputs(user);
   const { updateUser } = useAuth()
@@ -87,7 +87,6 @@ const Profile = () => {
               <Button type="primary" htmlType="submit">Сохранить</Button>
             </div>
           }
-
         </form>
       </div>
     </main>

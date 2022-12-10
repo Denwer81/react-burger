@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { getCartBun, getCartIngredients } from '../../services/selectors/selectors';
 import { deleteIngredient } from '../../services/slices/burgerConstructor';
 import useDropBurgerConstructor from '../../services/hooks/useDropBurgerConstructor';
@@ -12,12 +11,13 @@ import Cart from '../Cart/Cart';
 import Empty from '../Ui/Empty/Empty';
 
 import styles from './BurgerConstructor.module.css';
+import { useAppDispatch, useAppSelector } from '../../services/hooks/useRedux';
 
 const BurgerConstructor: FC = () => {
-  const dispatch = useDispatch();
-  const isLocked = useSelector(getIsLocked);
-  const cartBun = useSelector(getCartBun);
-  const cartIngredients = useSelector(getCartIngredients);
+  const dispatch = useAppDispatch();
+  const isLocked = useAppSelector(getIsLocked);
+  const cartBun = useAppSelector(getCartBun);
+  const cartIngredients = useAppSelector(getCartIngredients);
   const { isHover, dropTarget, debouncedMoveCard } = useDropBurgerConstructor();
 
   const handleDelete = (consructorId: string) => {

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import Wrapper from '../Ui/Wrapper/Wrapper';
 import HeaderLink from '../Ui/Header-link/Header-link';
 
@@ -16,9 +16,9 @@ const AppHeader: FC = () => {
             <HeaderLink text='Лента заказов' icon={'menu'} to={'/feed'} />
             <HeaderLink text='Личный кабинет' icon={'profile'} to={'/profile'} />
           </nav>
-          <div className={styles.logo}>
+          <Link to='/' className={styles.logo}>
             <Logo />
-          </div>
+          </Link>
         </Wrapper>
       </header>
       <Outlet />

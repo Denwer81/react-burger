@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../services/hooks/useRedux';
 import { getAllIngredients } from '../../services/selectors/selectors';
 import { setIngredient } from '../../services/slices/viewedIngredient';
 
@@ -9,9 +9,9 @@ import styles from './IngredientDetails.module.css';
 
 const IngredientDetails: FC = () => {
   const params = useParams();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
-  const allIngredients = useSelector(getAllIngredients);
+  const allIngredients = useAppSelector(getAllIngredients);
   const viewedIngredient = allIngredients
     .find((item) => item._id === params.ingredientId)
   const { name, image_large, calories, proteins, fat, carbohydrates } = viewedIngredient || {};

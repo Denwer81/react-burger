@@ -1,9 +1,9 @@
 import React, { useRef, FC } from 'react';
-import { useDispatch } from 'react-redux';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { deleteIngredient } from '../../services/slices/burgerConstructor';
 import useDnDBurgerConstructorList from '../../services/hooks/useDnDBurgerConstructorList';
 import { IConstuctor } from '../../services/types/burgerConstructor';
+import { useAppDispatch } from '../../services/hooks/useRedux';
 
 import styles from './BurgerConstructorList.module.css';
 
@@ -14,7 +14,7 @@ interface IBurgerConstructorList {
 }
 
 const BurgerConstructorList: FC<IBurgerConstructorList> = ({ item, index, moveCard }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const ref = useRef<HTMLLIElement>(null);
   const { handlerId, isDragging } = useDnDBurgerConstructorList({
     item,

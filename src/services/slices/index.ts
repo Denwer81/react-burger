@@ -1,4 +1,4 @@
-import { CreateSocketMiddleware } from './../middlewares/socketMiddleware';
+import { createSocketMiddleware } from './../middlewares/socketMiddleware';
 import { configureStore } from '@reduxjs/toolkit';
 import ingredients from './burgerIngredients';
 import viewedIngredient from './viewedIngredient';
@@ -18,7 +18,7 @@ const store = configureStore({
         feed,
     },
     middleware: (getDefaultMiddleware) => {
-        return getDefaultMiddleware().concat(CreateSocketMiddleware(wsActions))
+        return getDefaultMiddleware().concat(createSocketMiddleware(wsActions))
     },
     devTools: process.env.NODE_ENV !== 'production',
 })
