@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "./useRedux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getCartIdList, getIsAuth } from "../selectors/selectors";
 import { getCookie } from "../../utils/handleCookie";
-import { fetchOrder } from "../slices/order";
+import { fetchPostOrder } from "../slices/order";
 import useAuth from "./useAuth";
 
 const useOrder = () => {
@@ -25,7 +25,7 @@ const useOrder = () => {
 
         if (accessToken) {
           const cardList: { ingredients: string[] } = { ingredients: cartIdList };
-          const respose = await dispatch(fetchOrder({ cardList, accessToken }));
+          const respose = await dispatch(fetchPostOrder({ cardList, accessToken }));
 
           if (respose.payload) {
             if (respose.payload.message === 'jwt expired') {

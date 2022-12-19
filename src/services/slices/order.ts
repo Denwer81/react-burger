@@ -12,7 +12,7 @@ const initialState: IOrderState = {
   error: null,
 }
 
-export const fetchOrder = createAsyncThunk<IOrderPayload, IOrderData, { rejectValue: IOrderPayload }>(
+export const fetchPostOrder = createAsyncThunk<IOrderPayload, IOrderData, { rejectValue: IOrderPayload }>(
   'order/postOrder',
   async ({ cardList, accessToken }, { rejectWithValue }) => {
     try {
@@ -46,22 +46,22 @@ const orderSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchOrder.pending, (state, action) => {
+      .addCase(fetchPostOrder.pending, (state, action) => {
         state.error = null;
         state.loadingStatus = REQUEST_STATUS.loading;
       })
-      .addCase(fetchOrder.fulfilled, (state, action) => {
+      .addCase(fetchPostOrder.fulfilled, (state, action) => {
         state.loadingStatus = REQUEST_STATUS.idle;
         if (action.payload.success) {
           state.orderName = action.payload.name!;
           state.orderNumber = action.payload.order!.number;
         }
       })
-      .addCase(fetchOrder.rejected, (state, action) => {
+      .addCase(fetchPostOrder.rejected, (state, action) => {
         state.loadingStatus = REQUEST_STATUS.error;
-          state.error = action.payload!.message;
+        state.error = action.payload!.message;
       })
-    
+
       .addCase(fetchGetOrder.pending, (state, action) => {
         state.error = null;
         state.loadingStatus = REQUEST_STATUS.loading;
@@ -69,14 +69,13 @@ const orderSlice = createSlice({
       .addCase(fetchGetOrder.fulfilled, (state, action) => {
         state.loadingStatus = REQUEST_STATUS.idle;
         if (action.payload.success) {
-          console.log(action.payload)
           state.orderName = action.payload.orders?.[0].name
           state.orderNumber = action.payload.orders?.[0].number
         }
       })
       .addCase(fetchGetOrder.rejected, (state, action) => {
         state.loadingStatus = REQUEST_STATUS.error;
-          state.error = action.payload!.message;
+        state.error = action.payload!.message;
       })
   }
 });

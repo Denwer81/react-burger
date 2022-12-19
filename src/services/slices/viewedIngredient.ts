@@ -2,8 +2,6 @@ import { IIngredient } from './../types/burgerIngredients';
 import { createSlice, PayloadAction, } from "@reduxjs/toolkit";
 import { IViewedIngredient } from '../types/viewedIngredient';
 
-
-
 const initialState: IViewedIngredient = {
   ingredient: {},
 }
