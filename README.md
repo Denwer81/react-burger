@@ -1,46 +1,36 @@
-# Getting Started with Create React App
+EN and RUS description
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Stellar burgers website :rocket:  
 
-## Available Scripts
+Welcome to the Stellar burgers website!
 
-In the project directory, you can run:
+## Demo link:  
 
-### `npm start`
+You can visit the app at https://denwer81.github.io/react-burger/index.html
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Table of Content:  
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+* About The App   
+* Technologies  
+* Setup  
 
-### `npm test`
+## About The App  
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+First of all, you will get on homepage, where you can see the list of available burgers ingredients (buns, sauces and fillings).  
+To add necessary items to your cart, click and drag the item to the right part of the screen. 
 
-### `npm run build`
+You need to be authorized to get access to making order. If you will try to make an order by click on make order button, you will be redirected to login page, where you can log into your account or create profile if you are not registered yet. You also can get to your profile page by click on user profile link at the top right part of the screen.  
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+If you are authorized, you can get to your profile page by click on user icon at the top right part of the screen. On this page your can change your name and also you can see all your orders.  
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+You can see all orders and their status by click all orders link.  
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Technologies  
 
-### `npm run eject`
+This app covers such technologies, as: React, Redux, TypeScript, JavaScript, Cypress, Drag and Drop.  
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Setup
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+* Download or clone the repository
+* Run ```npm install```
+* Run ```npm start```
