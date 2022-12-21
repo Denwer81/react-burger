@@ -6,7 +6,7 @@ Welcome to the Stellar burgers website!
 
 ## Demo link:  
 
-You can visit the app at https://denwer81.github.io/react-burger/index.html
+You can visit the app at https://denwer81.github.io/react-burger
 
 ## Table of Content:  
 
